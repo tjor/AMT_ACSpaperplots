@@ -455,8 +455,8 @@ def plot_median_ap_province():
         data_nc['acs_wv']
         
         plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NADR',:],axis=0),label='NADR',color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NASE',:],axis=0),label='NASE',color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NASW',:],axis=0),label='NASW',color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NASW',:],axis=0),label='NASW',color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NASE',:],axis=0),label='NASE',color=colors[2])
         plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NATR',:],axis=0),label='NATR',color=colors[3])
         plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='WTRA',:],axis=0),label='WTRA',color=colors[4])
         plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='SATL',:],axis=0),label='SATL',color=colors[5])
@@ -473,8 +473,8 @@ def plot_median_ap_province():
         
         plt.subplot(2,3,2)
         plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NADR',:],axis=0),label='NADR',color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NASE',:],axis=0),label='NASE',color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NASW',:],axis=0),label='NASW',color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NASW',:],axis=0),label='NASW',color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NASE',:],axis=0),label='NASE',color=colors[2])
         plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NATR',:],axis=0),label='NATR',color=colors[3])
         plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='WTRA',:],axis=0),label='WTRA',color=colors[4])
         plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='SATL',:],axis=0),label='SATL',color=colors[5])
@@ -491,8 +491,8 @@ def plot_median_ap_province():
          
         plt.subplot(2,3,3)   
         plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NADR',:],axis=0),label='NADR: N = ' + str(N_NADR),color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NASE',:],axis=0),label='NASE: N = ' + str(N_NASE),color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NASW',:],axis=0),label='NASW: N = ' + str(N_NASW),color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NASW',:],axis=0),label='NASW: N = ' + str(N_NASW),color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NASE',:],axis=0),label='NASE: N = ' + str(N_NASE),color=colors[2])
         plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NATR',:],axis=0),label='NATR: N = ' + str(N_NATR),color=colors[3])
         plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='WTRA',:],axis=0),label='WTRA: N = ' + str(N_WTRA),color=colors[4])
         plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='SATL',:],axis=0),label='SATL: N = ' + str(N_SATL),color=colors[5])
@@ -509,8 +509,8 @@ def plot_median_ap_province():
         
         plt.subplot(2,3,4)
         plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NADR',:],axis=0),label='NADR',color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NASE',:],axis=0),label='NASE',color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NASW',:],axis=0),label='NASW',color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NASW',:],axis=0),label='NASW',color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NASE',:],axis=0),label='NASE',color=colors[2])
         plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NATR',:],axis=0),label='NATR',color=colors[3])
         plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='WTRA',:],axis=0),label='WTRA',color=colors[4])
         plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='SATL',:],axis=0),label='SATL',color=colors[5])
@@ -526,8 +526,8 @@ def plot_median_ap_province():
         
         plt.subplot(2,3,5)
         plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NADR',:],axis=0),label='NADR',color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NASE',:],axis=0),label='NASE',color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NASW',:],axis=0),label='NASW',color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NASW',:],axis=0),label='NASW',color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NASE',:],axis=0),label='NASE',color=colors[2])
         plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NATR',:],axis=0),label='NATR',color=colors[3])
         plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='WTRA',:],axis=0),label='WTRA',color=colors[4])
         plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='SATL',:],axis=0),label='SATL',color=colors[5])
@@ -544,13 +544,13 @@ def plot_median_ap_province():
          
         plt.subplot(2,3,6)   
         plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NADR',:],axis=0),label='NADR',color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NASE',:],axis=0),label='NASE',color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NASW',:],axis=0),label='NASW',color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NASW',:],axis=0),label='NASW',color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NASE',:],axis=0),label='NASE',color=colors[2])
         plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NATR',:],axis=0),label='NATR',color=colors[3])
         plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='WTRA',:],axis=0),label='WTRA',color=colors[4])
         plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='SATL',:],axis=0),label='SATL',color=colors[5])
         plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='SSTC',:],axis=0),label='SSTC',color=colors[6])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='SANT',:],axis=0),label='SANT',color=colors[7])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='SANT',:],axis=0),label='SANT',color=colors[7])
         plt.plot(data_nc['acs_wv'], one_over_lamba, color='black', linestyle = 'dashed')
         #plt.legend(loc=(1.04, 0))
         plt.xlim(400,720)
@@ -563,6 +563,53 @@ def plot_median_ap_province():
         plt.tight_layout()
 
         return
+
+def plot_676_443():
+ 
+    mask = _9cruise_LH_mask(field = 'LH_Province')
+      
+    ap_mat = _9cruise_IOPsum('acs_ap', 'acs2_ap')
+    ap_int = int_norm(ap_mat)
+    
+    colors = cm.Paired(np.linspace(0,1,10))
+    
+    ap_443 = (ap_int[:, 22] + ap_int[:, 23])/2
+    ap_676  = ap_int[:, 138]
+    ap_rat = ap_676/ap_443
+    
+    prov= ['NADR', 'NASW',  'NASE' ,'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'] # FKLD==1, ANTA -4, NECS = 8. do not include
+    
+    rat_vec =[]
+    for i in range(len(prov)):
+        rat_i = np.array(ap_rat)[mask ==str(prov[i])]
+        rat_i =  rat_i[~np.isnan(rat_i)]
+        rat_vec.append(rat_i)                                                                   
+    
+    plt.figure()
+    bp = plt.boxplot(rat_vec ,showfliers=True,patch_artist=True, medianprops=dict(color='black'), whis=[10,90],widths = 0.8) 
+    plt.ylim(0,0.7)
+    
+    
+    plt.ylabel('$a_{p}(676)/a_{p}(443)$')
+    colors = cm.Paired(np.linspace(0,1,10))
+    patches = []
+    for k in range(len(prov)):
+        bp['boxes'][k].set_facecolor(colors[k])
+       
+        color_string = cl.rgb2hex(colors[k])
+        patches.append(mpatches.Patch(color=color_string, label=str(prov[k])))
+        
+        
+   # plt.legend(handles=patches,fontsize=14,loc=2)
+    ax = plt.gca()
+    ax.set_xticklabels(labels= ['NADR', 'NASW',  'NASE' ,'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'],rotation=45)  
+   # ax.set_xticks([])  
+   # ax.set_yticks([])  
+   # ax.set_axis_off()
+    
+    
+    return
+
 
 
 # legacy
@@ -644,7 +691,7 @@ def _filter_combine_pigs(data_nc):
     pig_keys = ['hplc_Tot_Chl_a','hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
                 'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_But-fuco', 
                 'hplc_Diadino','hplc_Diato','hplc_Fuco','hplc_Hex-fuco',
-                'hplc_Perid', 'hplc_Zea']
+                'hplc_Perid', 'hplc_Zea', 'hplc_PPC', 'hplc_PSC']
        
     for i in range(len(pig_keys)):
         df_hplc[pig_keys[i]] = data_nc[pig_keys[i]]
@@ -671,10 +718,9 @@ def _pig_9cruises():
     
     df_hplc_combined = pd.concat([df_hplc_29, df_hplc_28, df_hplc_27, df_hplc_26, df_hplc_25, df_hplc_24, df_hplc_23, df_hplc_22, df_hplc_19 ])
     
-    #df_hplc_combined = pd.concat([df_hplc_29, df_hplc_28, df_hplc_27, df_hplc_22, df_hplc_19 ]) #- removing PML
+   # df_hplc_combined = pd.concat([df_hplc_29, df_hplc_28, df_hplc_27, df_hplc_22, df_hplc_19 ]) #- removing PML
     
-    
-    return    df_hplc_combined 
+    return  df_hplc_combined
 
 
 
@@ -769,7 +815,7 @@ def pig_cov(data):
 
 def pigs_byprov(): 
        
-    prov= ['NADR', 'NASE', 'NASW', 'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'] # FKLD==1, ANTA -4, NECS = 8. do not include
+    prov= ['NADR', 'NASW','NASE',  'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'] # FKLD==1, ANTA -4, NECS = 8. do not include
                                
     pig_keys = ['hplc_Tot_Chl_a','hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
                 'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_But-fuco', 
@@ -834,6 +880,74 @@ def pigs_byprov():
     return
 
 
+
+def pigs_byprov_ratio(): 
+       
+    prov= ['NADR', 'NASW','NASE',  'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'] # FKLD==1, ANTA -4, NECS = 8. do not include
+                               
+    pig_keys = ['hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
+                'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_But-fuco', 
+                'hplc_Diadino','hplc_Diato','hplc_Fuco',
+                'hplc_Hex-fuco','hplc_Perid', 'hplc_Zea']
+     
+    labels =  ['Tot_Chl_b', 'Tot_Chl_c' , 
+                  'Allo','alpha-beta-Car', 'But-fuco', 
+                  'Diadino','Diato','Fuco',
+                  'Hex-fuco','Perid', 'Zea']
+    
+    letters = ['A', 'B', 'C' ,'D' ,'E' ,'F','G' , 'H']
+    
+    
+    plt.figure(figsize=(13,13))    
+    plt.rcParams.update({'font.size': 18})
+    for i in range(len(prov)):
+        plt.subplot(3, 3, i+1)  
+        plt.title(prov[i] + ': N = ' + str(np.sum(LH_HPLC['LH_Province'] ==str(prov[i]))))
+    
+        pig_vec = []
+        for j in range(len(pig_keys)):
+            pig_j = np.array(df_hplc[pig_keys[j]]/df_hplc['hplc_Tot_Chl_a'])[LH_HPLC['LH_Province'] ==str(prov[i])]
+            pig_j[pig_j==0] = np.nan
+            pig_vec.append(pig_j)                                                                   
+    
+        bp = plt.boxplot(pig_vec ,showfliers=True,patch_artist=True, medianprops=dict(color='black'), whis=[10,90],widths = 0.8) 
+        plt.yscale('log')
+    
+        
+        ax = plt.gca()
+        ax.set_xticks([])  
+        ax.set_ylim([0.003, 1])
+        if i==0:
+            plt.ylabel('Concentration ratio')
+        if i==3:
+            plt.ylabel('Concentration ratio')
+        if i==6:
+            plt.ylabel('Concentration ratio')
+            
+        plt.text(.05, .08,  letters[i], ha='left', va='top', transform=ax.transAxes,fontsize=22)  
+    
+        colors = cm.Paired(np.linspace(0,1,len(pig_keys)+1)) 
+        patches = []
+        for k in range(len(pig_keys)):
+            bp['boxes'][k].set_facecolor(colors[k+1])
+            color_string = cl.rgb2hex(colors[k+1])
+            patches.append(mpatches.Patch(color=color_string, label=labels[k]))
+        
+            plt.tight_layout(pad=1.2)
+       
+    plt.subplot(3,3,9)
+    plt.legend(handles=patches,fontsize=14,loc=2)
+    ax = plt.gca()
+    ax.set_xticks([])  
+    ax.set_yticks([])  
+    ax.set_axis_off()
+    
+    return
+
+
+
+
+
 # ap match-up function. Note: desirble to do th 
 def hplc_ap_match_up_V2(data_nc, pigment, wavelength, two_acs_systems=False):
     
@@ -893,6 +1007,84 @@ def hplc_ap_match_up_V2(data_nc, pigment, wavelength, two_acs_systems=False):
         df_hplc_ap = df_hplc_ap.interpolate('index',limit=1).reindex(df_hplc.index,method='nearest',tolerance='30min')
                                       
     return  df_hplc_ap 
+
+
+
+def hplc_ap_match_up_V3(data_nc, two_acs_systems=False):
+    
+    ' extracts ap spectra that match hplc timestamps - median average over 30 min bin.'
+    ' this is designed to replicate what was done in the tot-chl-a match up procedure'
+    ' important to first remove: (i) replicates, (ii) deeper waters'
+    ' user specifies wavelength and pigment'
+    
+    
+    # hplc data frame
+    df_hplc = _filter_combine_pigs(data_nc)
+         
+    if two_acs_systems == False:  
+        
+        # ap data frame
+        ap = data_nc['acs_ap'].data       
+        wv = data_nc['acs_wv'].values
+        
+        df_ap = pd.DataFrame(index = data_nc['time']) # pandas data frame format for down-sampled spectra
+        for i in range(len(wv)):
+            ap_f = sg.medfilt(ap[:,i],kernel_size=31) # 
+            df_ap[str(wv[i])] = ap_f
+        
+            
+        df_ap = df_ap.interpolate('index',limit=1).reindex(df_hplc.index,method='nearest',tolerance='30min')
+    
+         
+        # repat for integral normalized
+        ap_int = int_norm(ap)
+        
+        df_ap_int = pd.DataFrame(index = data_nc['time']) # pandas data frame format for down-sampled spectra
+        for i in range(len(wv)):
+            ap_int_f = sg.medfilt(ap_int[:,i],kernel_size=31) # 
+            df_ap_int[str(wv[i])] = ap_int_f
+        
+            
+        df_ap_int = df_ap_int.interpolate('index',limit=1).reindex(df_hplc.index,method='nearest',tolerance='30min')
+        
+    if two_acs_systems == True:  
+        
+        # ap data frame
+        ap = data_nc['acs_ap'].data 
+      #  ap = int_norm(ap)
+        ap2 = data_nc['acs2_ap'].data 
+      #  ap2 = int_norm(ap2)
+        # integral normalization to go here
+        wv = data_nc['acs_wv'].values
+        
+        mat_ap = np.zeros([2,len(ap), len(ap.T)])
+        mat_ap[0,:,:] = ap
+        mat_ap[1,:,:] = ap2 
+        combined_ap = np.nanmean(mat_ap, axis=0)
+                       
+        
+        df_ap = pd.DataFrame(index = data_nc['time']) # pandas data frame format for down-sampled spectra
+        for i in range(len(wv)):
+            ap_f = sg.medfilt(combined_ap[:,i],kernel_size=31) # 
+            df_ap[str(wv[i])] = ap_f
+        
+        df_ap = df_ap.interpolate('index',limit=1).reindex(df_hplc.index,method='nearest',tolerance='30min')
+            
+        
+        ap_int = int_norm(combined_ap)
+        
+        df_ap_int = pd.DataFrame(index = data_nc['time']) # pandas data frame format for down-sampled spectra
+        for i in range(len(wv)):
+            ap_int_f = sg.medfilt(ap_int[:,i],kernel_size=31) # 
+            df_ap_int[str(wv[i])] = ap_int_f
+        
+            
+        df_ap_int = df_ap_int.interpolate('index',limit=1).reindex(df_hplc.index,method='nearest',tolerance='30min')
+        
+        
+        
+
+    return  df_hplc, df_ap, df_ap_int
 
 
 # legacy
@@ -1471,6 +1663,7 @@ def pig_scatter(pigment, pigment_label, pigment_ref, pigment_ref_label):
     return
 
 
+###############################################################################
 def total_ABfit():
         '''routine to do power-law fit for combined dataset'''
                 
@@ -1488,17 +1681,17 @@ def total_ABfit():
         data_nc_29.acs_chl_debiased.HPLC_Tot_chla]) 
         
         # concatenate AC-S
-        tot_acs= np.concatenate([data_nc_19.acx_chl_debiased.acx_chl, 
-        data_nc_22.acs_chl_debiased.acs_chl , 
-        data_nc_23.acs_chl_debiased.acs_chl , 
-        data_nc_24.acs_chl_debiased.acs_chl , 
-        data_nc_24.acs2_chl_debiased.acs_chl,
-        data_nc_25.acs_chl_debiased.acs_chl ,
+        tot_acs= np.concatenate([0.014*data_nc_19.acx_chl_debiased.acx_chl, 
+        0.014*data_nc_22.acs_chl_debiased.acs_chl , 
+        0.014* data_nc_23.acs_chl_debiased.acs_chl , 
+        0.014*data_nc_24.acs_chl_debiased.acs_chl , 
+        0.014*data_nc_24.acs2_chl_debiased.acs_chl,
+        0.014*data_nc_25.acs_chl_debiased.acs_chl ,
         #  data_nc_25.acs2_chl_debiased.acs_chl, 
-        data_nc_26.acs_chl_debiased.acs_chl , 
-        data_nc_27.acs_chl_debiased.acs_chl , 
-        data_nc_28.acx_chl_debiased.acx_chl , 
-        data_nc_29.acs_chl_debiased.acs_chl ]) 
+        0.014*data_nc_26.acs_chl_debiased.acs_chl , 
+        0.014*data_nc_27.acs_chl_debiased.acs_chl , 
+        0.014* data_nc_28.acx_chl_debiased.acx_chl , 
+        0.014*data_nc_29.acs_chl_debiased.acs_chl ]) 
             
         print(np.sum(~np.isnan(data_nc_19.acx_chl_debiased.HPLC_Tot_chla + data_nc_19.acx_chl_debiased.acx_chl)))
         print(np.sum(~np.isnan(data_nc_22.acs_chl_debiased.HPLC_Tot_chla + data_nc_22.acs_chl_debiased.acs_chl)))
@@ -1552,36 +1745,38 @@ def total_ABfit():
         print('delta_log, sigma_log, N')
         print(delta_log, sigma_log, N)
            
-        X = np.arange(0.01,10,0.01)
-        Y = np.arange(0.01,10,0.01)
-        Y2 = 10**(A+B*np.log10(X))
+        X = np.arange(0.001,10,0.010)
+        Y = X*0.014
+        Y2 = 10**(A+B*np.log10(Y))
         colors = cm.Paired(np.linspace(0,1,10))
            
            
         plt.figure(figsize=(6, 6))
         plt.rcParams.update({'font.size': 14})
-        plt.scatter(data_nc_19.acx_chl_debiased.acx_chl, data_nc_19.acx_chl_debiased.HPLC_Tot_chla, color=colors[0],alpha=0.7, s=6, label = 'AMT 19')
-        plt.scatter(data_nc_22.acs_chl_debiased.acs_chl, data_nc_22.acs_chl_debiased.HPLC_Tot_chla, color=colors[1], alpha=0.7, s=6, label = 'AMT 22')
-        plt.scatter(data_nc_23.acs_chl_debiased.acs_chl, data_nc_23.acs_chl_debiased.HPLC_Tot_chla, color=colors[2], alpha=0.7, s=6, label = 'AMT 23')
-        plt.scatter(data_nc_24.acs_chl_debiased.acs_chl, data_nc_24.acs_chl_debiased.HPLC_Tot_chla, color=colors[3], alpha=0.7, s=6)
-        plt.scatter(data_nc_24.acs2_chl_debiased.acs_chl, data_nc_24.acs2_chl_debiased.HPLC_Tot_chla,  color=colors[3], alpha=0.7, s=6, label = 'AMT 24')
-        plt.scatter(data_nc_25.acs_chl_debiased.acs_chl, data_nc_25.acs_chl_debiased.HPLC_Tot_chla, color=colors[4], alpha=0.7, s=6, label = 'AMT 25')
-        plt.scatter(data_nc_26.acs_chl_debiased.acs_chl, data_nc_26.acs_chl_debiased.HPLC_Tot_chla, color=colors[5], alpha=0.7, s=6, label = 'AMT 26')
-        plt.scatter(data_nc_27.acs_chl_debiased.acs_chl, data_nc_27.acs_chl_debiased.HPLC_Tot_chla, color=colors[6], alpha=0.7, s=6, label = 'AMT 27')
-        plt.scatter(data_nc_28.acx_chl_debiased.acx_chl, data_nc_28.acx_chl_debiased.HPLC_Tot_chla,  color=colors[7], alpha=0.7, s=6, label = 'AMT 28')
-        plt.scatter(data_nc_29.acs_chl_debiased.acs_chl, data_nc_29.acs_chl_debiased.HPLC_Tot_chla, color=colors[9], alpha=0.7, s=6, label = 'AMT 29')
+        plt.scatter(0.014*data_nc_19.acx_chl_debiased.acx_chl, data_nc_19.acx_chl_debiased.HPLC_Tot_chla, color=colors[0],alpha=0.7, s=6, label = 'AMT 19')
+        plt.scatter(0.014*data_nc_22.acs_chl_debiased.acs_chl, data_nc_22.acs_chl_debiased.HPLC_Tot_chla, color=colors[1], alpha=0.7, s=6, label = 'AMT 22')
+        plt.scatter(0.014*data_nc_23.acs_chl_debiased.acs_chl, data_nc_23.acs_chl_debiased.HPLC_Tot_chla, color=colors[2], alpha=0.7, s=6, label = 'AMT 23')
+        plt.scatter(0.014*data_nc_24.acs_chl_debiased.acs_chl, data_nc_24.acs_chl_debiased.HPLC_Tot_chla, color=colors[3], alpha=0.7, s=6)
+        plt.scatter(0.014*data_nc_24.acs2_chl_debiased.acs_chl, data_nc_24.acs2_chl_debiased.HPLC_Tot_chla,  color=colors[3], alpha=0.7, s=6, label = 'AMT 24')
+        plt.scatter(0.014*data_nc_25.acs_chl_debiased.acs_chl, data_nc_25.acs_chl_debiased.HPLC_Tot_chla, color=colors[4], alpha=0.7, s=6, label = 'AMT 25')
+        plt.scatter(0.014*data_nc_26.acs_chl_debiased.acs_chl, data_nc_26.acs_chl_debiased.HPLC_Tot_chla, color=colors[5], alpha=0.7, s=6, label = 'AMT 26')
+        plt.scatter(0.014*data_nc_27.acs_chl_debiased.acs_chl, data_nc_27.acs_chl_debiased.HPLC_Tot_chla, color=colors[6], alpha=0.7, s=6, label = 'AMT 27')
+        plt.scatter(0.014*data_nc_28.acx_chl_debiased.acx_chl, data_nc_28.acx_chl_debiased.HPLC_Tot_chla,  color=colors[7], alpha=0.7, s=6, label = 'AMT 28')
+        plt.scatter(0.014*data_nc_29.acs_chl_debiased.acs_chl, data_nc_29.acs_chl_debiased.HPLC_Tot_chla, color=colors[9], alpha=0.7, s=6, label = 'AMT 29')
         plt.yscale('log')
         plt.xscale('log')    
-        plt.plot(X,Y,'k',linestyle='dotted', label='1:1')
-        plt.plot(X,Y2,'magenta',linestyle='dashed', label='Best fit')
-        plt.xlabel('Tot_Chl_a: ACS  [mg m$^{-3}]$')
-        plt.ylabel('Tot_Chl_a: HPLC  [mg m$^{-3}]$')
+        plt.grid('on', ls='--')
+        plt.plot(Y,X,'k',linestyle='dotted', label='0.014:1')
+        plt.plot(Y,Y2,'magenta',linestyle='dashed', label='Best fit')
+        plt.xlabel('$a_{ph}(676)$ [m$^{-1}]$')
+        #plt.ylabel('$C_{a}$(HPLC)  [mg m$^{-3}]$')
+        plt.ylabel('Tot_Chl_a (HPLC)  [mg m$^{-3}]$')
         plt.legend(fontsize=11)
   
         plt.axis('equal')
     
-        plt.xlim(0.01,2)
-        plt.ylim(0.01,2)
+        plt.xlim(0.0003,0.01)
+        plt.ylim(0.01,3)
 
         return
         
@@ -1651,22 +1846,35 @@ def _relative_ACS_time(data_nc):
 
     return timestamp
 
+
+    
+def _relative_HPLC_time(data_nc):
+
+    timestamp = []
+    for i in range(0,len(data_nc['hplc_time'])):
+        str_i = '2023'+ str(data_nc['hplc_time'].values[i])[4:19] # create fake date all in same yearep 
+        timestamp.append(datetime.datetime.strptime(str_i, '%Y-%m-%dT%H:%M:%S'))
+    timestamp = np.array(timestamp)
+    timestamp = timestamp[data_nc['hplc_depth'].values < 10]  # no de
+
+    return timestamp
+
     
 
-def _color_by_prov(ts, mask, data_nc, plot_index, two_systems=False):
+def _color_by_prov(ts, tsh, mask, data_nc, plot_index, two_systems=False):
     
     prov_extra= ['NECS', 'FKLD', 'ANTA']
    
     if plot_index == 1 or plot_index == 8:
         for i in range(len(prov_extra)):
-            plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acx_chl_debiased'])))[mask==prov_extra[i]],ts[mask==prov_extra[i]], marker="s",xdate=False, ms=8,color='black')
+            plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acx_chl_debiased'])))[mask==prov_extra[i]],ts[mask==prov_extra[i]], marker="s",xdate=False, ms=10,color='black')
     else:
        for i in range(len(prov_extra)):
-           plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov_extra[i]],ts[mask==prov_extra[i]], marker="s", xdate=False, ms=8,color='black')
+           plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov_extra[i]],ts[mask==prov_extra[i]], marker="s", xdate=False, ms=10,color='gray')
            if two_systems ==True:
                combined = np.array(1*(~np.isnan(data_nc['acs2_chl_debiased']))+1*(~np.isnan(data_nc['acs_chl_debiased'])))
                combined[combined>0]=1
-               plt.plot_date(plot_index*combined[mask==prov_extra[i]],ts[mask==prov_extra[i]], xdate=False, marker="s", ms=8,color='black')
+               plt.plot_date(plot_index*combined[mask==prov_extra[i]],ts[mask==prov_extra[i]], xdate=False, marker="s", ms=10,color='gray')
 
     prov= ['NADR', 'NASE', 'NASW', 'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'] 
    
@@ -1674,55 +1882,68 @@ def _color_by_prov(ts, mask, data_nc, plot_index, two_systems=False):
     
     if plot_index == 1 or plot_index == 8:
         for i in range(len(prov)):
-            plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acx_chl_debiased'])))[mask==prov[i]],ts[mask==prov[i]],xdate=False, marker="s",ms=8,color=colors[i])
+            plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acx_chl_debiased'])))[mask==prov[i]],ts[mask==prov[i]],xdate=False, marker="s",ms=10,color=colors[i])
         if plot_index==9:
-                plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acx_chl_debiased'])))[mask==prov[i]],ts[mask==prov[i]], xdate=False, marker="s", ms=8,color=colors[i], label=prov[i])
+                plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acx_chl_debiased'])))[mask==prov[i]],ts[mask==prov[i]], xdate=False, marker="s", ms=10,color=colors[i], label = 'ACS: ' + str(prov[i]))
     else:
        for i in range(len(prov)):
-           plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov[i]], ts[mask==prov[i]], xdate=False, marker="s",ms=8, color=colors[i])
+           plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov[i]], ts[mask==prov[i]], xdate=False, marker="s",ms=10, color=colors[i])
            if plot_index ==9:
-               plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov[i]], ts[mask==prov[i]], xdate=False, marker="s", ms=8, color=colors[i],label=prov[i])
+               plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov[i]], ts[mask==prov[i]], xdate=False, marker="s", ms=10, color=colors[i], label = 'ACS: ' + str(prov[i]))
            if two_systems ==True:
                combined = np.array(1*(~np.isnan(data_nc['acs2_chl_debiased']))+1*(~np.isnan(data_nc['acs_chl_debiased'])))
                combined[combined>0]=1
-               plt.plot_date(plot_index*combined[mask==prov[i]],ts[mask==prov[i]], xdate=False, ms=8, color=colors[i])
+               plt.plot_date(plot_index*combined[mask==prov[i]],ts[mask==prov[i]], xdate=False, ms=10, color=colors[i])
+    
 
+    plt.plot_date(plot_index*np.ones(len(tsh)), tsh, xdate=False, ms=3, color='black')
 
     if plot_index ==9:
-        plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov_extra[0]],ts[mask==prov_extra[0]], marker="s", xdate=False, ms=8,color='black',label='OTHER')
-        plt.legend(fontsize=16)
+        plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov_extra[0]],ts[mask==prov_extra[0]], marker="s", xdate=False, ms=12,color='gray',label='ACS: OTHER PROVINCES')
+        plt.plot_date(plot_index*np.ones(len(tsh)),tsh, xdate=False, ms=3, color='black', label='HPLC')
+
+        plt.legend(fontsize=14)
         
     return 
 
 def _AMT_timeline():
     
-    plt.figure(figsize =(8,12))
+    plt.figure(figsize =(9,14))
     ts_19 = _relative_ACS_time(data_nc_19)
-    _color_by_prov(ts_19, mask_19['LH_Province'], data_nc_19, 1)
+    tsh_19 = _relative_HPLC_time(data_nc_19)
+    _color_by_prov(ts_19,tsh_19, mask_19['LH_Province'], data_nc_19, 1)
 
     ts_22 = _relative_ACS_time(data_nc_22)
-    _color_by_prov(ts_22, mask_22['LH_Province'], data_nc_22, 2)
+    tsh_22 = _relative_HPLC_time(data_nc_22)
+    _color_by_prov(ts_22,tsh_22, mask_22['LH_Province'], data_nc_22, 2)
 
     ts_23 = _relative_ACS_time(data_nc_23)
-    _color_by_prov(ts_23, mask_23['LH_Province'], data_nc_23, 3)
+    tsh_23 = _relative_HPLC_time(data_nc_23)
+    _color_by_prov(ts_23,tsh_23, mask_23['LH_Province'], data_nc_23, 3)
 
     ts_24 = _relative_ACS_time(data_nc_24)
-    _color_by_prov(ts_24, mask_24['LH_Province'], data_nc_24, 4, two_systems =True)
+    tsh_24 = _relative_HPLC_time(data_nc_24)
+    _color_by_prov(ts_24, tsh_24,mask_24['LH_Province'], data_nc_24, 4, two_systems =True)
 
     ts_25 = _relative_ACS_time(data_nc_25)
-    _color_by_prov(ts_25, mask_25['LH_Province'], data_nc_25, 5, two_systems =True)
+    tsh_25 = _relative_HPLC_time(data_nc_25)
+    _color_by_prov(ts_25,tsh_25, mask_25['LH_Province'], data_nc_25, 5, two_systems =True)
 
     ts_26 = _relative_ACS_time(data_nc_26)
-    _color_by_prov(ts_26, mask_26['LH_Province'], data_nc_26, 6)
+    tsh_26 = _relative_HPLC_time(data_nc_26)
+    _color_by_prov(ts_26, tsh_26, mask_26['LH_Province'], data_nc_26, 6)
 
     ts_27 = _relative_ACS_time(data_nc_27)
-    _color_by_prov(ts_27, mask_27['LH_Province'], data_nc_27, 7)
+    tsh_27 = _relative_HPLC_time(data_nc_27)
+    _color_by_prov(ts_27, tsh_27, mask_27['LH_Province'], data_nc_27, 7)
 
     ts_28 = _relative_ACS_time(data_nc_28)
-    _color_by_prov(ts_28, mask_28['LH_Province'], data_nc_28, 8)
+    tsh_28 = _relative_HPLC_time(data_nc_28)
+    _color_by_prov(ts_28,tsh_28, mask_28['LH_Province'], data_nc_28, 8)
 
     ts_29 = _relative_ACS_time(data_nc_29)
-    _color_by_prov(ts_29, mask_29['LH_Province'], data_nc_29, 9)
+    tsh_29 = _relative_HPLC_time(data_nc_29)
+    _color_by_prov(ts_29,tsh_29, mask_29['LH_Province'], data_nc_29, 9)
 
     plt.xlim(0.5,9.5)
     plt.gca().invert_yaxis()
@@ -1732,7 +1953,6 @@ def _AMT_timeline():
     plt.ylabel('Date within each year')
 
     return
-
 
 
 def _color_by_prov_chl(data_nc, mask, plot_index):
@@ -1794,7 +2014,7 @@ def chl_time_series():
     _color_by_prov_chl(data_nc_22, mask_22['LH_Province'], 2)
     _color_by_prov_chl(data_nc_23, mask_23['LH_Province'], 3)
     _color_by_prov_chl(data_nc_24, mask_24['LH_Province'], 4)
-    #_color_by_prov_chl(data_nc_25, mask_25['LH_Province'], 5)
+    _color_by_prov_chl(data_nc_25, mask_25['LH_Province'], 5)
     _color_by_prov_chl(data_nc_26, mask_26['LH_Province'], 6)
     _color_by_prov_chl(data_nc_27, mask_27['LH_Province'], 7)
     _color_by_prov_chl(data_nc_28, mask_28['LH_Province'], 8)
@@ -1830,6 +2050,157 @@ def chl_time_series():
 
     return
 
+
+def int_globalmed():
+    
+    ap_mat = _9cruise_IOPsum('acs_ap', 'acs2_ap')          
+    ap_int = int_norm(ap_mat)
+    global_med = np.nanmedian(ap_int,axis=0)
+
+    return  global_med
+
+
+
+def _ap_limitingcases():
+
+    df_hplc_19, df_ap_19, df_ap_int_19 = hplc_ap_match_up_V3(data_nc_19, two_acs_systems=False)
+    df_hplc_22, df_ap_22, df_ap_int_22 = hplc_ap_match_up_V3(data_nc_22, two_acs_systems=False)
+    df_hplc_23, df_ap_23, df_ap_int_23 = hplc_ap_match_up_V3(data_nc_23, two_acs_systems=False)
+    df_hplc_24, df_ap_24, df_ap_int_24 = hplc_ap_match_up_V3(data_nc_24, two_acs_systems=True)
+    df_hplc_25, df_ap_25, df_ap_int_25 = hplc_ap_match_up_V3(data_nc_25, two_acs_systems=True)
+    df_hplc_26, df_ap_26, df_ap_int_26 = hplc_ap_match_up_V3(data_nc_26, two_acs_systems=False)
+    df_hplc_27, df_ap_27, df_ap_int_27 = hplc_ap_match_up_V3(data_nc_27, two_acs_systems=False)
+    df_hplc_28, df_ap_28, df_ap_int_28 = hplc_ap_match_up_V3(data_nc_28, two_acs_systems=False)
+    df_hplc_29, df_ap_29, df_ap_int_29 = hplc_ap_match_up_V3(data_nc_29, two_acs_systems=False)
+    
+    df_hplc_combined = pd.concat([df_hplc_29, df_hplc_28, df_hplc_27, df_hplc_26, df_hplc_25, df_hplc_24, df_hplc_23, df_hplc_22, df_hplc_19 ])
+    df_ap_combined = pd.concat([df_ap_29, df_ap_28, df_ap_27, df_ap_26, df_ap_25, df_ap_24, df_ap_23, df_ap_22, df_ap_19 ])
+    df_ap_int_combined = pd.concat([df_ap_int_29, df_ap_int_28, df_ap_int_27, df_ap_int_26, df_ap_int_25, df_ap_int_24, df_ap_int_23, df_ap_int_22, df_ap_int_19 ])
+    
+    
+    df_hplc_combined = df_hplc_combined[np.isnan(df_ap_combined['400.0'])==0]
+    df_ap_combined = df_ap_combined[np.isnan(df_ap_combined['400.0'])==0]
+    df_ap_int_combined = df_ap_int_combined[np.isnan(df_ap_int_combined['400.0'])==0]
+    
+    global_med = int_globalmed()
+    wv = data_nc_26['acs_wv'].values
+    
+   # pig_keys = ['hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
+    #            'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_But-fuco', 
+     #           'hplc_Diadino','hplc_Diato','hplc_Fuco',
+      #         'hplc_Hex-fuco','hplc_Perid', 'hplc_Zea']
+    
+   # labels =  [ 'Tot_Chl_b', 'Tot_Chl_c' , 
+    #             'Allo','alpha-beta-Car', 'But-fuco', 
+     #            'Diadino','Diato','Fuco',
+      #           'Hex-fuco','Perid', 'Zea']
+    
+    pig_keys = ['hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
+               'hplc_PPC', 'hplc_PSC']
+              
+    labels =  [ 'Tot_Chl_b', 'Tot_Chl_c' , 
+                  'PPC', 'PSC']
+    
+        
+    colors = cm.Paired(np.linspace(0,1,12))
+    plt.rcParams.update({'font.size': 20})
+    plt.figure(figsize=(18,18))
+    plt
+    plt.subplot(2,2,1)
+    style_vec  = ['solid','dotted','dashed','dashdot','solid','dotted','dashed','dashdot','solid','dotted','dashed','dashdot']
+    
+    for i in range(len(pig_keys)):
+    
+        pig_name =  pig_keys[i]
+        p_threshold = np.percentile(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'], 90)
+        threshold_index = np.where(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'] > p_threshold)
+        df_ap_threshold = df_ap_combined.iloc[threshold_index]
+        ap_threshold = np.array(df_ap_threshold)
+        
+        plt.plot(wv,np.nanmedian(ap_threshold,axis=0),label=labels[i],linestyle=style_vec[i],linewidth=2)
+        df_ap_threshold = []
+        ap_threshold =[]
+        
+    #plt.legend()
+    plt.xlabel('Wavelength [nm]')
+    plt.ylabel('$a_{p}$ m$^{-1}$')
+    plt.xlim(400,720)
+    
+    plt.subplot(2,2,2)
+    
+    plt.plot(wv,global_med,label='Global median', color='black')    
+    for i in range(len(pig_keys)):
+    
+        pig_name =  pig_keys[i]
+        p_threshold = np.percentile(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'], 90)
+        threshold_index = np.where(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'] > p_threshold)
+        df_ap_threshold = df_ap_int_combined.iloc[threshold_index]
+        ap_threshold = np.array(df_ap_threshold)
+    
+        plt.plot(wv,np.nanmedian(ap_threshold,axis=0),label=labels[i],linestyle=style_vec[i],linewidth=2)
+        df_ap_threshold = []
+        ap_threshold =[]
+        
+    plt.legend(fontsize=14)
+    plt.xlabel('Wavelength [nm]')
+    plt.ylabel('$<a_{p}>$')
+    plt.xlim(400,720)
+    plt.grid()
+    
+    
+    plt.subplot(2,2,3)
+    for i in range(len(pig_keys)):
+    
+        pig_name =  pig_keys[i]
+        p_threshold = np.percentile(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'], 90)
+        threshold_index = np.where(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'] > p_threshold)
+        df_ap_threshold = df_ap_int_combined.iloc[threshold_index]
+        ap_threshold = np.array(df_ap_threshold)
+        ap_resid = np.nan*np.ones([len(ap_threshold), len(ap_threshold.T)])
+        for j in range(len(ap_threshold)):
+              ap_resid[j,:] = (ap_threshold[j,:] - global_med)
+        plt.plot(wv,np.nanmedian(ap_resid,axis=0),label=labels[i],linestyle=style_vec[i],linewidth=2)
+        
+        df_ap_threshold = []
+        df_threshold =[]
+        ap_resid[j,:] 
+    
+    #plt.legend()
+    plt.xlabel('Wavelength [nm]')
+    plt.ylabel('$<a_{p}>$ residual')
+    plt.xlim(400,720)
+    plt.tight_layout()
+    plt.grid()
+    
+    
+    plt.subplot(2,2,4)
+    for i in range(len(pig_keys)):
+    
+        pig_name =  pig_keys[i]
+        p_threshold = np.percentile(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'], 90)
+        threshold_index = np.where(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'] > p_threshold)
+        df_ap_threshold = df_ap_int_combined.iloc[threshold_index]
+        ap_threshold = np.array(df_ap_threshold)
+        ap_resid = np.nan*np.ones([len(ap_threshold), len(ap_threshold.T)])
+        for j in range(len(ap_threshold)):
+              ap_resid[j,:] = 100*(ap_threshold[j,:] - global_med)/global_med
+        plt.plot(wv,np.nanmedian(ap_resid,axis=0),label=labels[i],linestyle=style_vec[i],linewidth=2)
+        
+        df_ap_threshold = []
+        df_threshold =[]
+        ap_resid[j,:] 
+    
+    #plt.legend()
+    plt.xlabel('Wavelength [nm]')
+    plt.ylabel('$<a_{p}>$ percentage residual [%]')
+    plt.ylim(-40,40)
+    plt.xlim(400,720)
+    plt.tight_layout()
+    plt.grid()
+
+    
+
+    return
 
 
 if __name__ == '__main__':
@@ -1871,7 +2242,7 @@ if __name__ == '__main__':
     ###########################################################################
     # AMT 25 - seabass and nc data (for cross-check)
     fn_nc_25 = '/users/rsg/tjor/scratch_network/AMT_underway/AMT25/Processed/UWay/Step3/amt25_final_with_debiased_chl.nc'
-   # fn_chl_25 = '/data/datasets/cruise_data/active/ACS_Chl/amtacs/AMT25_ACS_CHL-A_MEDFILT_BIAS_CORRECTED.csv'
+# fn_chl_25 = '/data/datasets/cruise_data/active/ACS_Chl/amtacs/AMT25_ACS_CHL-A_MEDFILT_BIAS_CORRECTED.csv'
     data_nc_25 = xr.open_dataset(fn_nc_25)
    # data_chl_25 = pd.read_csv(fn_chl_25)
     
@@ -2064,114 +2435,5 @@ if __name__ == '__main__':
     pigment_ref = 'hplc_Tot_Chl_a'
     pigment_ref_label= 'Tot Chl-a'
 
-
-
-
-
-
-
-plt.figure(figsize=(13,25))
-
-#lt.scatter(data_nc_29['time'], data_nc_29['acs_chl_debiased'], s=0.5)
-#plt.scatter(data_nc_29.acs_chl_debiased.match_up_dates,data_nc_29.acs_chl_debiased.HPLC_Tot_chla,s=6,color='magenta')
-#plt.yscale('log')
-#ax=plt.gca()
-#ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%b-%d') )
-
-
-def _color_by_prov_chl(data_nc, mask, plot_index):
-    
-    plt.subplot(5,2,plot_index)
-    letters = ['AMT 19', 'AMT 22' , 'AMT 23', 'AMT 24', 'AMT 25', 'AMT 26', 'AMT 27' ,'AMT 28', 'AMT 29']
-        
-    if plot_index == 1 or plot_index == 8:    
-        acs_key ='acx_chl_debiased'
-    else:
-        acs_key ='acs_chl_debiased'
-    if plot_index == 4 or plot_index == 5:    
-        acs2_key = 'acs2_chl_debiased'
-    
-    
-    
-    prov_extra= ['NECS', 'FKLD', 'ANTA']
-    for i in range(len(prov_extra)):
-        plt.scatter(np.array(data_nc['time'])[mask==prov_extra[i]], np.array(data_nc[acs_key])[mask==prov_extra[i]], s=2, color='gray')
-        if plot_index == 4 or plot_index == 5:    
-            plt.scatter(np.array(data_nc['time'])[mask==prov_extra[i]], np.array(data_nc[acs2_key])[mask==prov_extra[i]], s=2, color='gray')
-  
-    prov= ['NADR', 'NASE', 'NASW', 'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'] 
-    colors = cm.Paired(np.linspace(0,1,10))
-    
-    for i in range(len(prov)):
-        plt.scatter(np.array(data_nc['time'])[mask==prov[i]], np.array(data_nc[acs_key])[mask==prov[i]],color=colors[i], s=2)
-        if plot_index == 4 or plot_index == 5:  
-            plt.scatter(np.array(data_nc['time'])[mask==prov[i]], np.array(data_nc[acs2_key])[mask==prov[i]],color=colors[i], s=2)
-    
-        
-    if plot_index == 1 or plot_index == 8:
-         plt.scatter(data_nc.acx_chl_debiased.match_up_dates, data_nc.acx_chl_debiased.HPLC_Tot_chla, s=8, color='black')
-    elif plot_index == 4 or plot_index == 5: 
-         plt.scatter(data_nc.acs2_chl_debiased.match_up_dates,data_nc.acs2_chl_debiased.HPLC_Tot_chla, s=8,color='black')    
-    else:
-         plt.scatter(data_nc.acs_chl_debiased.match_up_dates,data_nc.acs_chl_debiased.HPLC_Tot_chla, s=8,color='black')
-
-    plt.yscale('log')
-    plt.ylim(0.01,7)
-    ax=plt.gca()
-    ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%m-%d') )
-    ax.xaxis.set_major_locator(matplotlib.dates.MonthLocator(bymonthday=[1,5,10,15,20,25]))
-    plt.xticks(rotation=45)
-
-    plt.text(.02, .94,  letters[plot_index-1], ha='left', va='top', transform=ax.transAxes,fontsize=20) 
-
-   # if plot_index == 8:
-  
-
-    return
-
-
-def chl_time_series():
-    
-    fig = plt.figure(figsize=(15,20))
-    plt.rcParams.update({'font.size': 18})
-    _color_by_prov_chl(data_nc_19, mask_19['LH_Province'], 1)
-    _color_by_prov_chl(data_nc_22, mask_22['LH_Province'], 2)
-    _color_by_prov_chl(data_nc_23, mask_23['LH_Province'], 3)
-    _color_by_prov_chl(data_nc_24, mask_24['LH_Province'], 4)
-    #_color_by_prov_chl(data_nc_25, mask_25['LH_Province'], 5)
-    _color_by_prov_chl(data_nc_26, mask_26['LH_Province'], 6)
-    _color_by_prov_chl(data_nc_27, mask_27['LH_Province'], 7)
-    _color_by_prov_chl(data_nc_28, mask_28['LH_Province'], 8)
-    _color_by_prov_chl(data_nc_29, mask_29['LH_Province'], 9)
-    
-    fig.supylabel('Tot_Chl_a concentration  [mg m$^{-3}]$')
-    fig.supxlabel('Date (MM-DD) within each year')
-    
-    colors = cm.Paired(np.linspace(0,1,10)) 
-    prov = ['ACS: NADR', 'ACS: NASE', 'ACS: NASW', 'ACS: NATR', 'ACS: WTRA', 'ACS: SATL', 'ACS: SSTC', 'ACS: SANT']     
-    patches = []
-    for k in range(8):
-        color_string = cl.rgb2hex(colors[k])
-        patches.append(mpatches.Patch(color=color_string, label=prov[k]))
-    
-    patches.append(mpatches.Patch(color='gray', label='ACS: OTHER'))
-    #patches.append(mpatches.Patch(color='black', label='HPLC'))
-    
-    ax = plt.subplot(5,2,10)
-    plt.legend(handles=patches,fontsize=14,loc=2)
-    ax = plt.gca()
-    ax.set_xticks([])  
-    ax.set_yticks([])  
-    ax.set_axis_off()
-    ax = plt.gca()
-    ax2 = ax.twinx()
-    ax2.scatter(100,100, s=8,color='black', label='HPLC: ALL PROVINCES')    
-    ax2.set_xlim(0,1)
-    ax2.set_ylim(0,1)
-    ax2.legend(loc=1,fontsize=14)
-    plt.tight_layout()
-    ax2.axis("off")
-
-    return
 
 
