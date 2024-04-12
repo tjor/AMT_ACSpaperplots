@@ -237,16 +237,16 @@ def plot_coverage():
     ax.add_feature(shape_feature)
     
     
-    ax.scatter(data_nc_19['uway_lon'], data_nc_19['uway_lat'], s=0.5, color='red',label='AMT 19')
-    ax.scatter(data_nc_22['uway_lon'], data_nc_22['uway_lat'], s=0.5, color='orange',label='AMT 22')
-    ax.scatter(data_nc_23['uway_lon'], data_nc_23['uway_lat'], s=0.5, color='yellow',label='AMT 23')
-    ax.scatter(data_nc_24['uway_lon'], data_nc_24['uway_lat'], s=0.5, color='yellowgreen',label='AMT 24')
-    ax.scatter(data_nc_25['uway_lon'], data_nc_25['uway_lat'], s=0.5, color='lime',label='AMT 25')
-    ax.scatter(data_nc_26['uway_lon'], data_nc_26['uway_lat'], s=0.5, color='cyan',label='AMT 26')
-    ax.scatter(data_nc_27['uway_lon'], data_nc_27['uway_lat'], s=0.5, color='magenta',label='AMT 27')
-    ax.scatter(data_nc_28['uway_lon'], data_nc_28['uway_lat'], s=0.5, color='grey',label='AMT 28')
-    ax.scatter(data_nc_29['uway_lon'], data_nc_29['uway_lat'], s=0.5, color='white',label='AMT 29')
-    plt.legend(markerscale=12 ,loc=4)            
+    ax.scatter(data_nc_19['uway_lon'], data_nc_19['uway_lat'], s=0.5, color='red',label='AMT 19: 2009')
+    ax.scatter(data_nc_22['uway_lon'], data_nc_22['uway_lat'], s=0.5, color='orange',label='AMT 22: 2012')
+    ax.scatter(data_nc_23['uway_lon'], data_nc_23['uway_lat'], s=0.5, color='yellow',label='AMT 23: 2013')
+    ax.scatter(data_nc_24['uway_lon'], data_nc_24['uway_lat'], s=0.5, color='yellowgreen',label='AMT 24: 2014')
+    ax.scatter(data_nc_25['uway_lon'], data_nc_25['uway_lat'], s=0.5, color='lime',label='AMT 25: 2015')
+    ax.scatter(data_nc_26['uway_lon'], data_nc_26['uway_lat'], s=0.5, color='cyan',label='AMT 26: 2016')
+    ax.scatter(data_nc_27['uway_lon'], data_nc_27['uway_lat'], s=0.5, color='magenta',label='AMT 27: 2017')
+    ax.scatter(data_nc_28['uway_lon'], data_nc_28['uway_lat'], s=0.5, color='grey',label='AMT 28: 2018')
+    ax.scatter(data_nc_29['uway_lon'], data_nc_29['uway_lat'], s=0.5, color='white',label='AMT 29: 2019')
+    plt.legend(markerscale=10 ,loc=4,fontsize=14)            
     
     
     plt.text(.33, .92,   'NADR', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
@@ -254,11 +254,14 @@ def plot_coverage():
     plt.text(.53, .78,   'NASE', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
     plt.text(.16, .65,   'NATR', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
     plt.text(.26, .53,   'WTRA', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
-    plt.text(.53, .28,   'SATL', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
+    plt.text(.50, .28,   'SATL', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
     plt.text(.50, .13,   'SSTC', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
     plt.text(.42, .06,   'SANT', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)    
 
-    
+       
+    filename  =  fig_dir + '/'  + '_AMT_coverage.png'
+    plt.savefig(filename,dpi=600)    
+
     return
 
 
@@ -273,6 +276,22 @@ def _9cruise_IOPsum(field, field2):
                                      data_nc_28[field].values, data_nc_29[field].values], axis=0)
                     
     return combined_array           
+
+
+def _9cruise_chlsum():
+    
+    field = 'acs_chl_debiased'
+    field2= 'acs2_chl_debiased'
+    field3 = 'acx_chl_debiased'
+    
+    combined_array = np.concatenate([np.array(data_nc_19[field3].values), data_nc_22[field].values, data_nc_23[field].values, 
+                                     data_nc_24[field].values,  data_nc_24[field2].values, 
+                                     data_nc_25[field].values,  data_nc_25[field2].values, 
+                                     data_nc_26[field].values, data_nc_27[field].values, 
+                                     data_nc_28[field3].values, data_nc_29[field].values], axis=0)
+                    
+    return combined_array      
+
 
 
 def _9cruise_LH_mask(field = 'LH_Province'):
@@ -321,8 +340,8 @@ def plot_uncertainties():
     plt.plot(data_nc_29['acs_wv'],np.nanpercentile(apu_mat,10,axis=0), color=c1,linestyle='dotted')
     plt.xlim(400,720)
     plt.ylim(0,0.015)
-    #plt.xlabel('Wavelength [nm]')
-    plt.ylabel('$\sigma_{a_p}$ [m$^{-1}$]')
+    plt.xlabel('Wavelength, $\lambda$ [nm]')
+    plt.ylabel('$\sigma_{a_p(\lambda)}$ [m$^{-1}$]')
     plt.legend(fontsize=12)
     ax = plt.gca()
     plt.text(.05, .95,  'A', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
@@ -336,9 +355,9 @@ def plot_uncertainties():
     plt.plot(data_nc_29['acs_wv'],np.nanpercentile(bpu_mat,10,axis=0), color=c2, linestyle='dotted')
     plt.xlim(400,720)
     plt.ylim(0,0.015)
-    #plt.xlabel('Wavelength [nm]')
+    plt.xlabel('Wavelength, $\lambda$ [nm]')
     #plt.ylabel('Uncertainty [m$^{-1}$]')
-    plt.ylabel('$\sigma_{b_p}$ [m$^{-1}$]')
+    plt.ylabel('$\sigma_{b^{\prime}_{p}(\lambda)}$ [m$^{-1}$]')
     plt.legend(fontsize=12)
     ax = plt.gca()
     plt.text(.05, .95,  'B', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
@@ -353,13 +372,12 @@ def plot_uncertainties():
     plt.plot(data_nc_29['acs_wv'],np.nanpercentile(cpu_mat,10,axis=0), color=c3,linestyle='dotted')
     plt.xlim(400,720)
     plt.ylim(0,0.015)
-    plt.ylabel('$\sigma_{c_p}$ [m$^{-1}$]')
-    #plt.xlabel('Wavelength [nm]')
+    plt.ylabel('$\sigma_{c_p(\lambda)}$  [m$^{-1}$]')
+    plt.xlabel('Wavelength, $\lambda$ [nm]')
     #plt.ylabel('Uncertainty [m$^{-1}$]')
     plt.legend(fontsize=12)
     ax = plt.gca()
     plt.text(.05, .95,  'C', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
-    
     
     
     plt.subplot(2,3,4)
@@ -371,8 +389,8 @@ def plot_uncertainties():
     plt.plot(data_nc_29['acs_wv'],np.nanpercentile(100*apu_mat/np.abs(ap_mat),10,axis=0), color=c1,linestyle='dotted')
     plt.xlim(400,750)
     plt.ylim(0,100)
-    plt.xlabel('Wavelength [nm]')
-    plt.ylabel('$\sigma_{a_{p}}$ [%]')
+    plt.xlabel('Wavelength, $\lambda$ [nm]')
+    plt.ylabel('$\sigma_{a_{p}(\lambda)}$ [%]')
     ax = plt.gca()
     plt.text(.05, .95,  'D', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
     # plt.legend(fontsize=12)
@@ -387,9 +405,9 @@ def plot_uncertainties():
     plt.plot(data_nc_29['acs_wv'],np.nanpercentile(100*bpu_mat/np.abs(bp_mat),10,axis=0), color=c2,linestyle='dotted')
     plt.xlim(400,750)
     plt.ylim(0,30)
-    plt.xlabel('Wavelength [nm]')
+    plt.xlabel('Wavelength, $\lambda$ [nm]')
     ax = plt.gca()
-    plt.ylabel('$\sigma_{b_{p}}$ [%]')
+    plt.ylabel('$\sigma_{b^{\prime}_{p}(\lambda)}$  [%]')
     plt.text(.05, .95,  'E', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
     #plt.ylabel('Percentage uncertainty [%]')
     #plt.legend(fontsize=12)
@@ -404,14 +422,18 @@ def plot_uncertainties():
     plt.plot(data_nc_29['acs_wv'],np.nanpercentile(100*cpu_mat/np.abs(cp_mat),10,axis=0), color=c3,linestyle='dotted')
     plt.xlim(400,750)
     plt.ylim(0,30)
-    plt.xlabel('Wavelength [nm]')
-    plt.ylabel('$\sigma_{c_{p}}$ [%]')
+    plt.xlabel('Wavelength, $\lambda$ [nm]')
+    plt.ylabel('$\sigma_{c_{p}(\lambda)}$  [%]')
     ax = plt.gca()
     plt.text(.05, .95,  'F', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
     #plt.ylabel('Percentage uncertainty [%]')
     #plt.legend(fontsize=12)
     
     plt.tight_layout(pad=1.6)
+    
+       
+    filename  =  fig_dir + '/'  + '_uncertainties.png'
+    plt.savefig(filename,dpi=600)
     
     return
 
@@ -429,6 +451,17 @@ def plot_median_ap_province():
         bp_int = int_norm(bp_mat)
         cp_int = int_norm(cp_mat)
         
+        chl_tot = _9cruise_chlsum()
+        
+        C_NADR = np.round(1000*np.nanmedian(chl_tot[mask=='NADR']))/1000
+        C_NASE = np.round(1000*np.nanmedian(chl_tot[mask=='NASE']))/1000
+        C_NASW = np.round(1000*np.nanmedian(chl_tot[mask=='NASW']))/1000
+        C_NATR = np.round(1000*np.nanmedian(chl_tot[mask=='NATR']))/1000 
+        C_WTRA = np.round(1000*np.nanmedian(chl_tot[mask=='WTRA']))/1000
+        C_SATL = np.round(1000*np.nanmedian(chl_tot[mask=='SATL']))/1000
+        C_SSTC = np.round(1000*np.nanmedian(chl_tot[mask=='SSTC']))/1000
+        C_SANT = np.round(1000*np.nanmedian(chl_tot[mask=='SANT']))/1000
+        
         N_NADR = np.sum(~np.isnan((ap_mat[mask=='NADR',50]))) # 50 is arbitrary
         N_NASE = np.sum(~np.isnan((ap_mat[mask=='NASE',50])))
         N_NASW = np.sum(~np.isnan((ap_mat[mask=='NASW',50])))
@@ -437,6 +470,7 @@ def plot_median_ap_province():
         N_SATL = np.sum(~np.isnan((ap_mat[mask=='SATL',50])))
         N_SSTC = np.sum(~np.isnan((ap_mat[mask=='SSTC',50])))
         N_SANT = np.sum(~np.isnan((ap_mat[mask=='SANT',50])))
+
 
 
         data_nc = data_nc_26 # also abitraty -use to get wavelength
@@ -454,115 +488,127 @@ def plot_median_ap_province():
         
         data_nc['acs_wv']
         
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NADR',:],axis=0),label='NADR',color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NASW',:],axis=0),label='NASW',color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NASE',:],axis=0),label='NASE',color=colors[2])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NATR',:],axis=0),label='NATR',color=colors[3])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='WTRA',:],axis=0),label='WTRA',color=colors[4])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='SATL',:],axis=0),label='SATL',color=colors[5])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='SSTC',:],axis=0),label='SSTC',color=colors[6])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='SANT',:],axis=0),label='SANT',color=colors[7])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NADR',:],axis=0),color=colors[0])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NASW',:],axis=0),color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NASE',:],axis=0),color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='NATR',:],axis=0),color=colors[3])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='WTRA',:],axis=0),color=colors[4])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='SATL',:],axis=0),color=colors[5])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='SSTC',:],axis=0),color=colors[6])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_mat[mask=='SANT',:],axis=0),color=colors[7])
         
         #plt.legend(loc=(1.04, 0))
         plt.xlim(400,720)
-        plt.xlabel('Wavelength [nm]')
-        plt.ylabel('$a_{p}$ [m$^{-1}$]')
+        plt.xlabel('Wavelength, $\lambda$ [nm]')
+        plt.ylabel('$a_{p}(\lambda)$  [m$^{-1}$]')
         ax = plt.gca()
+        ax.set_ylim(bottom=0)
         plt.text(.86, .95,  'A', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
                 
         
         plt.subplot(2,3,2)
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NADR',:],axis=0),label='NADR',color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NASW',:],axis=0),label='NASW',color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NASE',:],axis=0),label='NASE',color=colors[2])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NATR',:],axis=0),label='NATR',color=colors[3])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='WTRA',:],axis=0),label='WTRA',color=colors[4])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='SATL',:],axis=0),label='SATL',color=colors[5])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='SSTC',:],axis=0),label='SSTC',color=colors[6])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='SANT',:],axis=0),label='SANT',color=colors[7])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NADR',:],axis=0),color=colors[0])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NASW',:],axis=0),color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NASE',:],axis=0),color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='NATR',:],axis=0),color=colors[3])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='WTRA',:],axis=0),color=colors[4])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='SATL',:],axis=0),color=colors[5])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='SSTC',:],axis=0),color=colors[6])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_mat[mask=='SANT',:],axis=0),color=colors[7])
         
         #plt.legend(loc=(1.04, 0))
         plt.xlim(400,720)
-        plt.xlabel('Wavelength [nm]')
-        plt.ylabel('$b_{p}$ [m$^{-1}$]')
+        plt.xlabel('Wavelength, $\lambda$ [nm]')
+        plt.ylabel('$b^{\prime}_{p}(\lambda)$  [m$^{-1}$]')
         ax = plt.gca()
+        ax.set_ylim(bottom=0)
         plt.text(.86, .95,   'B', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
         
          
+
         plt.subplot(2,3,3)   
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NADR',:],axis=0),label='NADR: N = ' + str(N_NADR),color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NASW',:],axis=0),label='NASW: N = ' + str(N_NASW),color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NASE',:],axis=0),label='NASE: N = ' + str(N_NASE),color=colors[2])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NATR',:],axis=0),label='NATR: N = ' + str(N_NATR),color=colors[3])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='WTRA',:],axis=0),label='WTRA: N = ' + str(N_WTRA),color=colors[4])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='SATL',:],axis=0),label='SATL: N = ' + str(N_SATL),color=colors[5])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='SSTC',:],axis=0),label='SSTC: N = ' + str(N_SSTC),color=colors[6])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='SANT',:],axis=0),label='SANT: N = ' + str(N_SANT),color=colors[7])
-        plt.plot(0, 0, color='black', linestyle = 'dashed', label ='$\lambda^{-1}$')
-        plt.legend(loc=(1.04, 0))
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NADR',:],axis=0),label='NADR: N = ' + str(N_NADR) + ', Median $C_{a}(a_{p})$ = ' + str(C_NADR) + ' mg m$^{-3}$', color=colors[0])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NASW',:],axis=0),label='NASW: N = ' + str(N_NASW) + ', Median $C_{a}(a_{p})$ = ' + str(C_NASW) + ' mg m$^{-3}$', color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NASE',:],axis=0),label='NASE: N = ' + str(N_NASE) + ', Median $C_{a}(a_{p})$ = ' + str(C_NASE) + ' mg m$^{-3}$', color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='NATR',:],axis=0),label='NATR: N = ' + str(N_NATR) + ', Median $C_{a}(a_{p})$ = ' + str('0.100') + ' mg m$^{-3}$', color=colors[3])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='WTRA',:],axis=0),label='WTRA: N = ' + str(N_WTRA) + ', Median $C_{a}(a_{p})$ = ' + str(C_WTRA) + ' mg m$^{-3}$', color=colors[4])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='SATL',:],axis=0),label='SATL: N = ' + str(N_SATL) + ', Median $C_{a}(a_{p})$ = ' + str(C_SATL) + ' mg m$^{-3}$', color=colors[5])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='SSTC',:],axis=0),label='SSTC: N = ' + str(N_SSTC) + ', Median $C_{a}(a_{p})$ = ' + str(C_SSTC) + ' mg m$^{-3}$', color=colors[6])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_mat[mask=='SANT',:],axis=0),label='SANT: N = ' + str(N_SANT) + ', Median $C_{a}(a_{p})$ = ' + str(C_SANT) + ' mg m$^{-3}$', color=colors[7])
         plt.xlim(400,720)
-        plt.xlabel('Wavelength [nm]')
-        plt.ylabel('$c_{p}$ [m$^{-1}$]')
+        plt.xlabel('Wavelength, $\lambda$ [nm]')
+        plt.ylabel('$c_{p}(\lambda)$  [m$^{-1}$]')
         ax = plt.gca()
+        ax.set_ylim(bottom=0)
         plt.text(.86, .95,   'C', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
         
-        
         plt.subplot(2,3,4)
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NADR',:],axis=0),label='NADR',color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NASW',:],axis=0),label='NASW',color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NASE',:],axis=0),label='NASE',color=colors[2])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NATR',:],axis=0),label='NATR',color=colors[3])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='WTRA',:],axis=0),label='WTRA',color=colors[4])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='SATL',:],axis=0),label='SATL',color=colors[5])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='SSTC',:],axis=0),label='SSTC',color=colors[6])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='SANT',:],axis=0),label='SANT',color=colors[7])
-        #plt.legend(loc=(1.04, 0))
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NADR',:],axis=0),color=colors[0])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NASW',:],axis=0),color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NASE',:],axis=0),color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='NATR',:],axis=0),color=colors[3])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='WTRA',:],axis=0),color=colors[4])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='SATL',:],axis=0),color=colors[5])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='SSTC',:],axis=0),color=colors[6])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(ap_int[mask=='SANT',:],axis=0),color=colors[7])
+
         plt.xlim(400,720)
-        plt.xlabel('Wavelength [nm]')
-        plt.ylabel('$<a_{p}>$')
+        plt.xlabel('Wavelength, $\lambda$ [nm]')
+        plt.ylabel('$<a_{p}(\lambda)>$')
         ax = plt.gca()
+        ax.set_ylim(bottom=0)
         plt.text(.86, .95, 'D', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
         
         
         plt.subplot(2,3,5)
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NADR',:],axis=0),label='NADR',color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NASW',:],axis=0),label='NASW',color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NASE',:],axis=0),label='NASE',color=colors[2])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NATR',:],axis=0),label='NATR',color=colors[3])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='WTRA',:],axis=0),label='WTRA',color=colors[4])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='SATL',:],axis=0),label='SATL',color=colors[5])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='SSTC',:],axis=0),label='SSTC',color=colors[6])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='SANT',:],axis=0),label='SANT',color=colors[7])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NADR',:],axis=0),color=colors[0])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NASW',:],axis=0),color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NASE',:],axis=0),color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='NATR',:],axis=0),color=colors[3])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='WTRA',:],axis=0),color=colors[4])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='SATL',:],axis=0),color=colors[5])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='SSTC',:],axis=0),color=colors[6])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(bp_int[mask=='SANT',:],axis=0),color=colors[7])
         plt.plot(data_nc['acs_wv'], one_over_lamba, color='black', linestyle = 'dashed')
+
         #plt.legend(loc=(1.04, 0))
         plt.xlim(400,720)
-        plt.xlabel('Wavelength [nm]')
-        plt.ylabel('$<b_{p}>$')
+        plt.xlabel('Wavelength, $\lambda$ [nm]')
+        plt.ylabel('$<b^{\prime}_{p}(\lambda) >$')
         ax = plt.gca()
+        ax.set_ylim(bottom=0)
         plt.text(.86, .95,  'E', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
         
-         
         plt.subplot(2,3,6)   
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NADR',:],axis=0),label='NADR',color=colors[0])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NASW',:],axis=0),label='NASW',color=colors[1])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NASE',:],axis=0),label='NASE',color=colors[2])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NATR',:],axis=0),label='NATR',color=colors[3])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='WTRA',:],axis=0),label='WTRA',color=colors[4])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='SATL',:],axis=0),label='SATL',color=colors[5])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='SSTC',:],axis=0),label='SSTC',color=colors[6])
-        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='SANT',:],axis=0),label='SANT',color=colors[7])
-        plt.plot(data_nc['acs_wv'], one_over_lamba, color='black', linestyle = 'dashed')
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NADR',:],axis=0),color=colors[0])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NASW',:],axis=0),color=colors[1])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NASE',:],axis=0),color=colors[2])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='NATR',:],axis=0),color=colors[3])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='WTRA',:],axis=0),color=colors[4])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='SATL',:],axis=0),color=colors[5])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='SSTC',:],axis=0),color=colors[6])
+        plt.plot(data_nc['acs_wv'],np.nanmedian(cp_int[mask=='SANT',:],axis=0),color=colors[7])
+        plt.plot(data_nc['acs_wv'], one_over_lamba, color='black', linestyle = 'dashed', label = '$\lambda^{-1}$')
         #plt.legend(loc=(1.04, 0))
         plt.xlim(400,720)
-        plt.xlabel('Wavelength [nm]')
-        plt.ylabel('$<c_{p}>$')
+        plt.xlabel('Wavelength, $\lambda$ [nm]')
+        plt.ylabel('$<c_{p}(\lambda)>$')
         ax = plt.gca()
+        ax.set_ylim(bottom=0)
         plt.text(.86, .95,   'F', ha='left', va='top', transform=ax.transAxes,fontsize=24)
 
 
+        plt.figlegend(loc='upper center', bbox_to_anchor=(0.5, -0.02),
+          fancybox=True, ncol=2, fontsize=14)
+        
+
         plt.tight_layout()
+        
+        filename  =  fig_dir + '/'  + '_provincemedians.png'
+        plt.savefig(filename,dpi=600)
 
         return
+
 
 def plot_676_443():
  
@@ -606,14 +652,16 @@ def plot_676_443():
    # ax.set_xticks([])  
    # ax.set_yticks([])  
    # ax.set_axis_off()
-    
+   
+    filename  =  fig_dir + '/'  + '_675over473.png'
+    plt.savefig(filename,dpi=600)
+
     
     return
 
 
 
 # legacy
-
 def plot_median_ap_cp(data_nc):
         
     plt.figure()
@@ -729,14 +777,14 @@ def pig_cov(data):
     pig_keys = ['hplc_Tot_Chl_a','hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
                 'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_But-fuco', 
                 'hplc_Diadino','hplc_Diato','hplc_Fuco',
-                'hplc_Hex-fuco','hplc_Perid', 'hplc_Zea']
+                'hplc_Hex-fuco','hplc_Perid', 'hplc_Zea', 'hplc_PPC', 'hplc_PSC']
     
     pig_labels = ['Tot_Chl_a','Tot_Chl_b', 'Tot_Chl_c' , 
                   'Allo','$\alpha$-$\beta$-Car', 'But-fuco', 
                   'Diadino','Diato','Hex-fuco',
-                  'Perid', 'Zea']
+                  'Perid', 'Zea', 'PPC', 'PSC']
     
-    plt.figure(figsize=(15,20))
+    plt.figure(figsize=(18,22))
     plt.subplot(2,1,1)
     plt.rcParams.update({'font.size': 22})
     C = np.nan*np.ones([len(pig_keys), len(pig_keys)])
@@ -746,32 +794,32 @@ def pig_cov(data):
                 C[i, j] = scipy.stats.pearsonr(data[pig_keys[i]], data[pig_keys[j]])[0]
             if i < j: 
                 C[i, j] = scipy.stats.pearsonr(data[pig_keys[i]]/data['hplc_Tot_Chl_a'], data[pig_keys[j]]/data['hplc_Tot_Chl_a'])[0]
-    
+
     
     plt.pcolor(np.flipud(C.T), cmap='bwr', vmin=-1, vmax=1)
     cbar = plt.colorbar()
     cbar.set_label('Correlation coefficient, $r$', rotation=90 ,labelpad=30)
     
-    plt.xlim(1,12)
-    plt.ylim(0,12)
+    plt.xlim(1,14)
+    plt.ylim(0,14)
     
     for i in range(C.shape[0]):
         for j in range(C.shape[1]):
             if np.isnan(C[i, j]) == 0:
-                plt.text(i + 0.5, 11-j + 0.5, '%.2f' % C[i, j],
+                plt.text(i + 0.5, 13-j + 0.5, '%.2f' % C[i, j],
                          horizontalalignment='center',
                          verticalalignment='center',
                          )
     ax = plt.gca()
-    ax.set_xticks([1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5], 
+    ax.set_xticks([1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5], 
                   labels =  ['Tot_Chl_b', 'Tot_Chl_c' , 
                                 'Allo','alpha-beta-Car', 'But-fuco', 
                                 'Diadino','Diato','Fuco',
-                                'Hex-fuco','Perid', 'Zea'])
+                                'Hex-fuco','Perid', 'Zea', 'PPC', 'PSC'])
            
     plt.xticks(rotation=45)                 
-    ax.set_yticks([0.5, 1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5],
-           labels = ['Zea','Perid', 'Hex-fuco', 'Fuco', 'Diato',  'Diadino', 'But-fuco', 'alpha-beta-Car', 'Allo',  'Tot_Chl_c' ,'Tot_Chl_b', 'Tot_Chl_a'])
+    ax.set_yticks([0.5, 1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5],
+           labels = ['PSC', 'PPC', 'Zea','Perid', 'Hex-fuco', 'Fuco', 'Diato',  'Diadino', 'But-fuco', 'alpha-beta-Car', 'Allo',  'Tot_Chl_c' ,'Tot_Chl_b', 'Tot_Chl_a'])
           
     
     plt.subplot(2,1,2)
@@ -788,27 +836,32 @@ def pig_cov(data):
     cbar = plt.colorbar()
     cbar.set_label('Coefficient of determination, $r^2$', rotation=90, labelpad=30)
     
-    plt.xlim(1,12)
-    plt.ylim(0,12)
+    plt.xlim(1,14)
+    plt.ylim(0,14)
     
     for i in range(C.shape[0]):
         for j in range(C.shape[1]):
             if np.isnan(C[i, j]) == 0:
-                plt.text(i + 0.5, 11-j + 0.5, '%.2f' % C[i, j],
+                plt.text(i + 0.5, 13-j + 0.5, '%.2f' % C[i, j],
                          horizontalalignment='center',
                          verticalalignment='center',
                          )
     ax = plt.gca()
-    ax.set_xticks([1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5], 
+    ax.set_xticks([1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5], 
                     labels =  ['Tot_Chl_b', 'Tot_Chl_c' , 
                                   'Allo','alpha-beta-Car', 'But-fuco', 
                                   'Diadino','Diato','Fuco',
-                                  'Hex-fuco','Perid', 'Zea'])
+                                  'Hex-fuco','Perid', 'Zea', 'PPC', 'PSC'])
              
     plt.xticks(rotation=45)                 
-    ax.set_yticks([0.5, 1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5],
-    labels = ['Zea','Perid', 'Hex-fuco', 'Fuco', 'Diato',  'Diadino', 'But-fuco', 'alpha-beta-Car', 'Allo',  'Tot_Chl_c' ,'Tot_Chl_b', 'Tot_Chl_a'])
+    ax.set_yticks([0.5, 1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5],
+    labels = ['PSC', 'PPC', 'Zea','Perid', 'Hex-fuco', 'Fuco', 'Diato',  'Diadino', 'But-fuco', 'alpha-beta-Car', 'Allo',  'Tot_Chl_c' ,'Tot_Chl_b', 'Tot_Chl_a'])
+   
     plt.tight_layout(pad=1.2)
+    
+    filename  =  fig_dir + '/'  + '_pigscovmat.png'
+    plt.savefig(filename,dpi=600)
+    
     
     return
 
@@ -840,6 +893,7 @@ def pigs_byprov():
         for j in range(len(pig_keys)):
             pig_j = np.array(df_hplc[pig_keys[j]])[LH_HPLC['LH_Province'] ==str(prov[i])]
             pig_j[pig_j==0] = np.nan
+            pig_j =pig_j[~np.isnan(pig_j)]
             pig_vec.append(pig_j)                                                                   
     
         bp = plt.boxplot(pig_vec ,showfliers=True,patch_artist=True, medianprops=dict(color='black'), whis=[10,90],widths = 0.8) 
@@ -848,15 +902,13 @@ def pigs_byprov():
         
         ax = plt.gca()
         ax.set_xticks([])  
-        ax.set_ylim([0.0005, 5])
+        ax.set_ylim([0.0003, 5])
         if i==0:
             plt.ylabel('Concentration [mg m$^{-3}]$')
         if i==3:
             plt.ylabel('Concentration [mg m$^{-3}]$')
         if i==6:
             plt.ylabel('Concentration [mg m$^{-3}]$')
-            
-    
         
         plt.text(.90, .95,  letters[i], ha='left', va='top', transform=ax.transAxes,fontsize=22)  
     
@@ -876,6 +928,10 @@ def pigs_byprov():
     ax.set_xticks([])  
     ax.set_yticks([])  
     ax.set_axis_off()
+    
+    filename  =  fig_dir + '/'  + '_pigsbyprov.png'
+    plt.savefig(filename,dpi=600)
+    
     
     return
 
@@ -908,8 +964,9 @@ def pigs_byprov_ratio():
         for j in range(len(pig_keys)):
             pig_j = np.array(df_hplc[pig_keys[j]]/df_hplc['hplc_Tot_Chl_a'])[LH_HPLC['LH_Province'] ==str(prov[i])]
             pig_j[pig_j==0] = np.nan
-            pig_vec.append(pig_j)                                                                   
-    
+            pig_j =pig_j[~np.isnan(pig_j)]
+            pig_vec.append(pig_j)    
+             
         bp = plt.boxplot(pig_vec ,showfliers=True,patch_artist=True, medianprops=dict(color='black'), whis=[10,90],widths = 0.8) 
         plt.yscale('log')
     
@@ -941,6 +998,9 @@ def pigs_byprov_ratio():
     ax.set_xticks([])  
     ax.set_yticks([])  
     ax.set_axis_off()
+    
+    filename  =  fig_dir + '/'  + '_pigsbyprovratio.png'
+    plt.savefig(filename,dpi=600)
     
     return
 
@@ -1640,19 +1700,20 @@ def pig_scatter(pigment, pigment_label, pigment_ref, pigment_ref_label):
     
     
     plt.figure(figsize=(8,8))
+    plt.subplot(1,2,1)
     plt.title('Type 1: log-log fit: A = ' + str(A) + '; B = '  + str(B) +'; N = ' + str(N)  + '\n'
                'r$^{2}$ = ' + str(r_sq) + '; ' + 'spearmans = ' + str(rho) +  '; ' + 'error = ' + str(eps) + '$\%$')
     plt.rcParams.update({'font.size': 18})
     plt.plot(X,Y,'k',linestyle='dashed')
-    plt.scatter(data_nc_19[pigment], data_nc_19[pigment_ref],label='AMT19' ,alpha=0.6)
-    plt.scatter(data_nc_22[pigment], data_nc_22[pigment_ref],label='AMT22' ,alpha=0.6)
-    plt.scatter(data_nc_23[pigment], data_nc_23[pigment_ref],label='AMT23' ,alpha=0.6)
-    plt.scatter(data_nc_24[pigment], data_nc_24[pigment_ref],label='AMT24' ,alpha=0.6)   
-    plt.scatter(data_nc_25[pigment], data_nc_25[pigment_ref],label='AMT25' ,alpha=0.6)
-    plt.scatter(data_nc_26[pigment], data_nc_26[pigment_ref],label='AMT26' ,alpha=0.6)
-    plt.scatter(data_nc_27[pigment], data_nc_27[pigment_ref],label='AMT27' ,alpha=0.6)   
-    plt.scatter(data_nc_28[pigment], data_nc_28[pigment_ref],label='AMT28' ,alpha=0.6)  
-    plt.scatter(data_nc_29[pigment], data_nc_29[pigment_ref],label='AMT29' ,alpha=0.6)  
+    plt.scatter(data_nc_19[pigment], data_nc_19[pigment_ref],label='AMT19' ,alpha=0.4)
+    plt.scatter(data_nc_22[pigment], data_nc_22[pigment_ref],label='AMT22' ,alpha=0.4)
+    plt.scatter(data_nc_23[pigment], data_nc_23[pigment_ref],label='AMT23' ,alpha=0.4)
+    plt.scatter(data_nc_24[pigment], data_nc_24[pigment_ref],label='AMT24' ,alpha=0.4)   
+    plt.scatter(data_nc_25[pigment], data_nc_25[pigment_ref],label='AMT25' ,alpha=0.4)
+    plt.scatter(data_nc_26[pigment], data_nc_26[pigment_ref],label='AMT26' ,alpha=0.4)
+    plt.scatter(data_nc_27[pigment], data_nc_27[pigment_ref],label='AMT27' ,alpha=0.4)   
+    plt.scatter(data_nc_28[pigment], data_nc_28[pigment_ref],label='AMT28' ,alpha=0.4)  
+    plt.scatter(data_nc_29[pigment], data_nc_29[pigment_ref],label='AMT29' ,alpha=0.4)  
     plt.plot(X,Y,'k',linestyle='dashed')
     plt.yscale('log')
     plt.xscale('log')
@@ -1661,6 +1722,7 @@ def pig_scatter(pigment, pigment_label, pigment_ref, pigment_ref_label):
     plt.legend()
 
     return
+
 
 
 ###############################################################################
@@ -1683,11 +1745,11 @@ def total_ABfit():
         # concatenate AC-S
         tot_acs= np.concatenate([0.014*data_nc_19.acx_chl_debiased.acx_chl, 
         0.014*data_nc_22.acs_chl_debiased.acs_chl , 
-        0.014* data_nc_23.acs_chl_debiased.acs_chl , 
+        0.014*data_nc_23.acs_chl_debiased.acs_chl , 
         0.014*data_nc_24.acs_chl_debiased.acs_chl , 
         0.014*data_nc_24.acs2_chl_debiased.acs_chl,
         0.014*data_nc_25.acs_chl_debiased.acs_chl ,
-        #  data_nc_25.acs2_chl_debiased.acs_chl, 
+        # data_nc_25.acs2_chl_debiased.acs_chl; 
         0.014*data_nc_26.acs_chl_debiased.acs_chl , 
         0.014*data_nc_27.acs_chl_debiased.acs_chl , 
         0.014* data_nc_28.acx_chl_debiased.acx_chl , 
@@ -1704,7 +1766,7 @@ def total_ABfit():
         print(np.sum(~np.isnan(data_nc_28.acx_chl_debiased.HPLC_Tot_chla + data_nc_28.acx_chl_debiased.acx_chl)))                                          
         print(np.sum(~np.isnan(data_nc_29.acs_chl_debiased.HPLC_Tot_chla + data_nc_29.acs_chl_debiased.acs_chl)))                                           
                     
-        
+        #clip
         tot_acs = tot_acs[~np.isnan(tot_chl)]
         tot_chl = tot_chl[~np.isnan(tot_chl)]
         
@@ -1715,7 +1777,8 @@ def total_ABfit():
                                                   
         linear_mod = scipy.stats.linregress(np.log10(tot_acs),np.log10(tot_chl)) #- no A
                                                   
-        A = np.round(100*linear_mod.intercept)/100
+        log10A = np.round(100*linear_mod.intercept)/100 # note - A_ 
+        A = 10**log10A
         B = np.round(1000*linear_mod.slope)/1000
         r_sq = np.round(1000*linear_mod.rvalue**2)/100
         
@@ -1724,13 +1787,12 @@ def total_ABfit():
         interr = np.round(1000*linear_mod.intercept_stderr)/1000
         
         
-        print('A = ' + str(10**A) + ' +/- ' + str(2*10**interr))
+        print('A = ' + str(10**log10A) + ' +/- ' + str(2*10**interr)) #
         print('B = ' + str(B) + ' +/- ' + str(2*stderr))
         print(r_sq)
         
         
-        rres = tot_acs/tot_chl - 1
-           
+        rres = tot_acs/(0.014*tot_chl) - 1
         rres_log = np.log10(tot_acs) / np.log10(tot_chl) - 1
            
         delta = np.nanmedian(rres)
@@ -1746,37 +1808,86 @@ def total_ABfit():
         print(delta_log, sigma_log, N)
            
         X = np.arange(0.001,10,0.010)
-        Y = X*0.014
-        Y2 = 10**(A+B*np.log10(Y))
+        Y = X*0.014 # used in 1-1 plot
+        Y2 = (X/A)**(1/B)
         colors = cm.Paired(np.linspace(0,1,10))
            
            
-        plt.figure(figsize=(6, 6))
-        plt.rcParams.update({'font.size': 14})
-        plt.scatter(0.014*data_nc_19.acx_chl_debiased.acx_chl, data_nc_19.acx_chl_debiased.HPLC_Tot_chla, color=colors[0],alpha=0.7, s=6, label = 'AMT 19')
-        plt.scatter(0.014*data_nc_22.acs_chl_debiased.acs_chl, data_nc_22.acs_chl_debiased.HPLC_Tot_chla, color=colors[1], alpha=0.7, s=6, label = 'AMT 22')
-        plt.scatter(0.014*data_nc_23.acs_chl_debiased.acs_chl, data_nc_23.acs_chl_debiased.HPLC_Tot_chla, color=colors[2], alpha=0.7, s=6, label = 'AMT 23')
-        plt.scatter(0.014*data_nc_24.acs_chl_debiased.acs_chl, data_nc_24.acs_chl_debiased.HPLC_Tot_chla, color=colors[3], alpha=0.7, s=6)
-        plt.scatter(0.014*data_nc_24.acs2_chl_debiased.acs_chl, data_nc_24.acs2_chl_debiased.HPLC_Tot_chla,  color=colors[3], alpha=0.7, s=6, label = 'AMT 24')
-        plt.scatter(0.014*data_nc_25.acs_chl_debiased.acs_chl, data_nc_25.acs_chl_debiased.HPLC_Tot_chla, color=colors[4], alpha=0.7, s=6, label = 'AMT 25')
-        plt.scatter(0.014*data_nc_26.acs_chl_debiased.acs_chl, data_nc_26.acs_chl_debiased.HPLC_Tot_chla, color=colors[5], alpha=0.7, s=6, label = 'AMT 26')
-        plt.scatter(0.014*data_nc_27.acs_chl_debiased.acs_chl, data_nc_27.acs_chl_debiased.HPLC_Tot_chla, color=colors[6], alpha=0.7, s=6, label = 'AMT 27')
-        plt.scatter(0.014*data_nc_28.acx_chl_debiased.acx_chl, data_nc_28.acx_chl_debiased.HPLC_Tot_chla,  color=colors[7], alpha=0.7, s=6, label = 'AMT 28')
-        plt.scatter(0.014*data_nc_29.acs_chl_debiased.acs_chl, data_nc_29.acs_chl_debiased.HPLC_Tot_chla, color=colors[9], alpha=0.7, s=6, label = 'AMT 29')
+        plt.figure(figsize=(13, 6))
+        plt.subplot(1,2,1)
+        plt.rcParams.update({'font.size': 18})
+        plt.scatter(0.014*data_nc_19.acx_chl_debiased.acx_chl, data_nc_19.acx_chl_debiased.HPLC_Tot_chla, color=colors[0],alpha=0.5, s=8, label = 'AMT 19')
+        plt.scatter(0.014*data_nc_22.acs_chl_debiased.acs_chl, data_nc_22.acs_chl_debiased.HPLC_Tot_chla, color=colors[1], alpha=0.5, s=8, label = 'AMT 22')
+        plt.scatter(0.014*data_nc_23.acs_chl_debiased.acs_chl, data_nc_23.acs_chl_debiased.HPLC_Tot_chla, color=colors[2], alpha=0.5, s=8, label = 'AMT 23')
+        plt.scatter(0.014*data_nc_24.acs_chl_debiased.acs_chl, data_nc_24.acs_chl_debiased.HPLC_Tot_chla, color=colors[3], alpha=0.5, s=8)
+        plt.scatter(0.014*data_nc_24.acs2_chl_debiased.acs_chl, data_nc_24.acs2_chl_debiased.HPLC_Tot_chla, color=colors[3], alpha=0.5, s=8, label = 'AMT 24')
+        plt.scatter(0.014*data_nc_25.acs_chl_debiased.acs_chl, data_nc_25.acs_chl_debiased.HPLC_Tot_chla, color=colors[4], alpha=0.5, s=8, label = 'AMT 25')
+        plt.scatter(0.014*data_nc_26.acs_chl_debiased.acs_chl, data_nc_26.acs_chl_debiased.HPLC_Tot_chla, color=colors[5], alpha=0.5, s=8, label = 'AMT 26')
+        plt.scatter(0.014*data_nc_27.acs_chl_debiased.acs_chl, data_nc_27.acs_chl_debiased.HPLC_Tot_chla, color=colors[6], alpha=0.5, s=8, label = 'AMT 27')
+        plt.scatter(0.014*data_nc_28.acx_chl_debiased.acx_chl, data_nc_28.acx_chl_debiased.HPLC_Tot_chla,  color=colors[7], alpha=0.5, s=8, label = 'AMT 28')
+        plt.scatter(0.014*data_nc_29.acs_chl_debiased.acs_chl, data_nc_29.acs_chl_debiased.HPLC_Tot_chla, color=colors[9], alpha=0.5, s=8, label = 'AMT 29')
         plt.yscale('log')
         plt.xscale('log')    
         plt.grid('on', ls='--')
         plt.plot(Y,X,'k',linestyle='dotted', label='0.014:1')
-        plt.plot(Y,Y2,'magenta',linestyle='dashed', label='Best fit')
+        plt.plot(Y2,X,'magenta',linestyle='dashed', label='Best fit')
         plt.xlabel('$a_{ph}(676)$ [m$^{-1}]$')
         #plt.ylabel('$C_{a}$(HPLC)  [mg m$^{-3}]$')
-        plt.ylabel('Tot_Chl_a (HPLC)  [mg m$^{-3}]$')
-        plt.legend(fontsize=11)
-  
+        plt.ylabel('$C_{a}$(HPLC) [mg m$^{-3}]$')
+        plt.legend(fontsize=14)
         plt.axis('equal')
     
-        plt.xlim(0.0003,0.01)
+        plt.xlim(0.001,0.01)
         plt.ylim(0.01,3)
+
+        ax = plt.gca()
+        plt.text(.05, .95,  'A', ha='left', va='top', transform=ax.transAxes,fontsize=22)  
+       
+
+        plt.subplot(1,2,2)
+        resid_19 = 100*(data_nc_19.acx_chl_debiased.HPLC_Tot_chla - A*(0.014*data_nc_19.acx_chl_debiased.acx_chl)**B)/(A*(0.014*data_nc_19.acx_chl_debiased.acx_chl)**B)
+        resid_22 = 100*(data_nc_22.acs_chl_debiased.HPLC_Tot_chla - A*(0.014*data_nc_22.acs_chl_debiased.acs_chl)**B)/(A*(0.014*data_nc_22.acs_chl_debiased.acs_chl)**B)
+        resid_23 = 100*(data_nc_23.acs_chl_debiased.HPLC_Tot_chla - A*(0.014*data_nc_23.acs_chl_debiased.acs_chl)**B)/(A*(0.014*data_nc_23.acs_chl_debiased.acs_chl)**B)
+        resid_24 = 100*(data_nc_24.acs_chl_debiased.HPLC_Tot_chla - A*(0.014*data_nc_24.acs_chl_debiased.acs_chl)**B)/(A*(0.014*data_nc_24.acs_chl_debiased.acs_chl)**B)
+        resid_24_2 = 100*(data_nc_24.acs2_chl_debiased.HPLC_Tot_chla - A*(0.014*data_nc_24.acs2_chl_debiased.acs_chl)**B)/(A*(0.014*data_nc_24.acs2_chl_debiased.acs_chl)**B)
+        resid_25 = 100*(data_nc_25.acs_chl_debiased.HPLC_Tot_chla - A*(0.014*data_nc_25.acs_chl_debiased.acs_chl)**B)/(A*(0.014*data_nc_25.acs_chl_debiased.acs_chl)**B)
+        resid_26 = 100*(data_nc_26.acs_chl_debiased.HPLC_Tot_chla - A*(0.014*data_nc_26.acs_chl_debiased.acs_chl)**B)/(A*(0.014*data_nc_26.acs_chl_debiased.acs_chl)**B)
+        resid_27 = 100*(data_nc_27.acs_chl_debiased.HPLC_Tot_chla - A*(0.014*data_nc_27.acs_chl_debiased.acs_chl)**B)/(A*(0.014*data_nc_27.acs_chl_debiased.acs_chl)**B)
+        resid_28 = 100*(data_nc_28.acx_chl_debiased.HPLC_Tot_chla - A*(0.014*data_nc_28.acx_chl_debiased.acx_chl)**B)/(A*(0.014*data_nc_28.acx_chl_debiased.acx_chl)**B)
+        resid_29 = 100*(data_nc_29.acs_chl_debiased.HPLC_Tot_chla - A*(0.014*data_nc_29.acs_chl_debiased.acs_chl)**B)/(A*(0.014*data_nc_29.acs_chl_debiased.acs_chl)**B)
+        
+        plt.rcParams.update({'font.size': 16})
+        plt.scatter(0.014*data_nc_19.acx_chl_debiased.acx_chl, resid_19, color=colors[0],alpha=0.5, s=8, label = 'AMT 19')
+        plt.scatter(0.014*data_nc_22.acs_chl_debiased.acs_chl, resid_22, color=colors[1],alpha=0.5, s=8, label = 'AMT 22')
+        plt.scatter(0.014*data_nc_23.acs_chl_debiased.acs_chl, resid_23, color=colors[2],alpha=0.5, s=8, label = 'AMT 23')
+        plt.scatter(0.014*data_nc_24.acs_chl_debiased.acs_chl, resid_24, color=colors[3],alpha=0.5, s=8, label = 'AMT 24')
+        plt.scatter(0.014*data_nc_24.acs2_chl_debiased.acs_chl, resid_24_2, color=colors[3],alpha=0.5, s=8)
+        plt.scatter(0.014*data_nc_25.acs_chl_debiased.acs_chl, resid_25, color=colors[4],alpha=0.5, s=8, label = 'AMT 25')
+        plt.scatter(0.014*data_nc_26.acs_chl_debiased.acs_chl, resid_26, color=colors[5],alpha=0.5, s=8, label = 'AMT 26')
+        plt.scatter(0.014*data_nc_27.acs_chl_debiased.acs_chl, resid_27, color=colors[6],alpha=0.5, s=8, label = 'AMT 27')
+        plt.scatter(0.014*data_nc_28.acx_chl_debiased.acx_chl, resid_28, color=colors[7],alpha=0.5, s=8, label = 'AMT 28')
+        plt.scatter(0.014*data_nc_29.acs_chl_debiased.acs_chl, resid_29, color=colors[9],alpha=0.5, s=8, label = 'AMT 29')
+    
+
+        plt.xscale('log')      
+        plt.xlabel('$a_{ph}(676)$ [m$^{-1}]$')
+        plt.ylabel('$C_{a}$(HPLC) percentage residual [$\%$]')
+      #  plt.legend(fontsize=13)
+        plt.xscale('log') 
+        plt.tight_layout()
+        plt.grid('on', ls='--')
+        #plt.xlim(0.001,0.01)
+    
+        # plt.xlim(0.001,0.01)
+        plt.ylim(-100,100)
+        
+        ax = plt.gca()
+        plt.text(.05, .95,  'B', ha='left', va='top', transform=ax.transAxes,fontsize=22)  
+ 
+        
+        filename  =  fig_dir + '/'  + '_ABscatterplot.png'
+        plt.savefig(filename,dpi=600)
+       
 
         return
         
@@ -1884,14 +1995,14 @@ def _color_by_prov(ts, tsh, mask, data_nc, plot_index, two_systems=False):
         for i in range(len(prov)):
             plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acx_chl_debiased'])))[mask==prov[i]],ts[mask==prov[i]],xdate=False, marker="s",ms=10,color=colors[i])
         if plot_index==9:
-                plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acx_chl_debiased'])))[mask==prov[i]],ts[mask==prov[i]], xdate=False, marker="s", ms=10,color=colors[i], label = 'ACS: ' + str(prov[i]))
+                plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acx_chl_debiased'])))[mask==prov[i]],ts[mask==prov[i]], xdate=False, marker="s", ms=10,color=colors[i], label = 'IOP: ' + str(prov[i]))
     else:
        for i in range(len(prov)):
            plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov[i]], ts[mask==prov[i]], xdate=False, marker="s",ms=10, color=colors[i])
            if plot_index ==9:
-               plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov[i]], ts[mask==prov[i]], xdate=False, marker="s", ms=10, color=colors[i], label = 'ACS: ' + str(prov[i]))
+               plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov[i]], ts[mask==prov[i]], xdate=False, marker="s", ms=10, color=colors[i], label = 'IOP: ' + str(prov[i]))
            if two_systems ==True:
-               combined = np.array(1*(~np.isnan(data_nc['acs2_chl_debiased']))+1*(~np.isnan(data_nc['acs_chl_debiased'])))
+               combined = np.array(1*(~np.isnan(data_nc['acs2_chl_debiased'])) + 1*(~np.isnan(data_nc['acs_chl_debiased'])))
                combined[combined>0]=1
                plt.plot_date(plot_index*combined[mask==prov[i]],ts[mask==prov[i]], xdate=False, ms=10, color=colors[i])
     
@@ -1899,16 +2010,17 @@ def _color_by_prov(ts, tsh, mask, data_nc, plot_index, two_systems=False):
     plt.plot_date(plot_index*np.ones(len(tsh)), tsh, xdate=False, ms=3, color='black')
 
     if plot_index ==9:
-        plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov_extra[0]],ts[mask==prov_extra[0]], marker="s", xdate=False, ms=12,color='gray',label='ACS: OTHER PROVINCES')
+        plt.plot_date(plot_index*np.array(1*(~np.isnan(data_nc['acs_chl_debiased'])))[mask==prov_extra[0]],ts[mask==prov_extra[0]], marker="s", xdate=False, ms=12,color='gray',label='IOP: OTHER PROVINCES')
         plt.plot_date(plot_index*np.ones(len(tsh)),tsh, xdate=False, ms=3, color='black', label='HPLC')
 
-        plt.legend(fontsize=14)
+        plt.legend(fontsize=15)
         
     return 
 
 def _AMT_timeline():
     
     plt.figure(figsize =(9,14))
+    plt.rcParams.update({'font.size': 16})
     ts_19 = _relative_ACS_time(data_nc_19)
     tsh_19 = _relative_HPLC_time(data_nc_19)
     _color_by_prov(ts_19,tsh_19, mask_19['LH_Province'], data_nc_19, 1)
@@ -1951,6 +2063,10 @@ def _AMT_timeline():
     ax.set_xticklabels(['','AMT 19','AMT 22','AMT 23','AMT 24','AMT 25','AMT 26','AMT 27','AMT 28','AMT 29'],rotation=45)  
     ax.yaxis.set_major_formatter(matplotlib.dates.DateFormatter('%b-%d') )
     plt.ylabel('Date within each year')
+    
+       
+    filename  =  fig_dir + '/'  + '_AMT_timeline.png'
+    plt.savefig(filename,dpi=600)
 
     return
 
@@ -1966,7 +2082,6 @@ def _color_by_prov_chl(data_nc, mask, plot_index):
         acs_key ='acs_chl_debiased'
     if plot_index == 4 or plot_index == 5:    
         acs2_key = 'acs2_chl_debiased'
-    
     
     
     prov_extra= ['NECS', 'FKLD', 'ANTA']
@@ -2008,8 +2123,8 @@ def _color_by_prov_chl(data_nc, mask, plot_index):
 
 def chl_time_series():
     
-    fig = plt.figure(figsize=(15,20))
-    plt.rcParams.update({'font.size': 18})
+    fig = plt.figure(figsize=(14,16))
+    plt.rcParams.update({'font.size': 16})
     _color_by_prov_chl(data_nc_19, mask_19['LH_Province'], 1)
     _color_by_prov_chl(data_nc_22, mask_22['LH_Province'], 2)
     _color_by_prov_chl(data_nc_23, mask_23['LH_Province'], 3)
@@ -2047,9 +2162,11 @@ def chl_time_series():
     ax2.legend(loc=1,fontsize=14)
     plt.tight_layout()
     ax2.axis("off")
+    
+    filename  =  fig_dir + '/'  + '_Chl_transects.png'
+    plt.savefig(filename,dpi=900)
 
     return
-
 
 def int_globalmed():
     
@@ -2102,12 +2219,9 @@ def _ap_limitingcases():
                   'PPC', 'PSC']
     
         
-    colors = cm.Paired(np.linspace(0,1,12))
-    plt.rcParams.update({'font.size': 20})
-    plt.figure(figsize=(18,18))
-    plt
-    plt.subplot(2,2,1)
-    style_vec  = ['solid','dotted','dashed','dashdot','solid','dotted','dashed','dashdot','solid','dotted','dashed','dashdot']
+    plt.figure(figsize=(15,5))
+    plt.subplot(1,3,1)
+    style_vec  = ['solid','dotted','dashed','dashdot','solid']
     
     for i in range(len(pig_keys)):
     
@@ -2122,12 +2236,15 @@ def _ap_limitingcases():
         ap_threshold =[]
         
     #plt.legend()
+    ax = plt.gca()
+    plt.text(.90, .95,  'A', ha='left', va='top', transform=ax.transAxes,fontsize=22) 
     plt.xlabel('Wavelength [nm]')
-    plt.ylabel('$a_{p}$ m$^{-1}$')
+    plt.ylabel('$a_{p}(\lambda)$ [m$^{-1}$]')
     plt.xlim(400,720)
+ 
     
-    plt.subplot(2,2,2)
     
+    plt.subplot(1,3,2)
     plt.plot(wv,global_med,label='Global median', color='black')    
     for i in range(len(pig_keys)):
     
@@ -2140,15 +2257,17 @@ def _ap_limitingcases():
         plt.plot(wv,np.nanmedian(ap_threshold,axis=0),label=labels[i],linestyle=style_vec[i],linewidth=2)
         df_ap_threshold = []
         ap_threshold =[]
-        
-    plt.legend(fontsize=14)
+    ax = plt.gca()
+    plt.text(.90, .95,  'B', ha='left', va='top', transform=ax.transAxes,fontsize=22)  
+    plt.legend(fontsize=14,loc=7)
     plt.xlabel('Wavelength [nm]')
-    plt.ylabel('$<a_{p}>$')
+    plt.ylabel('$<a_{p}(\lambda)>$')
     plt.xlim(400,720)
-    plt.grid()
+ 
+  #  plt.grid()
     
     
-    plt.subplot(2,2,3)
+    plt.subplot(1,3,3)
     for i in range(len(pig_keys)):
     
         pig_name =  pig_keys[i]
@@ -2166,39 +2285,42 @@ def _ap_limitingcases():
         ap_resid[j,:] 
     
     #plt.legend()
+    ax = plt.gca()
+    plt.text(.90, .95,  'C', ha='left', va='top', transform=ax.transAxes,fontsize=22)
     plt.xlabel('Wavelength [nm]')
-    plt.ylabel('$<a_{p}>$ residual')
-    plt.xlim(400,720)
-    plt.tight_layout()
-    plt.grid()
-    
-    
-    plt.subplot(2,2,4)
-    for i in range(len(pig_keys)):
-    
-        pig_name =  pig_keys[i]
-        p_threshold = np.percentile(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'], 90)
-        threshold_index = np.where(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'] > p_threshold)
-        df_ap_threshold = df_ap_int_combined.iloc[threshold_index]
-        ap_threshold = np.array(df_ap_threshold)
-        ap_resid = np.nan*np.ones([len(ap_threshold), len(ap_threshold.T)])
-        for j in range(len(ap_threshold)):
-              ap_resid[j,:] = 100*(ap_threshold[j,:] - global_med)/global_med
-        plt.plot(wv,np.nanmedian(ap_resid,axis=0),label=labels[i],linestyle=style_vec[i],linewidth=2)
-        
-        df_ap_threshold = []
-        df_threshold =[]
-        ap_resid[j,:] 
-    
-    #plt.legend()
-    plt.xlabel('Wavelength [nm]')
-    plt.ylabel('$<a_{p}>$ percentage residual [%]')
-    plt.ylim(-40,40)
+    plt.ylabel('$<a_{p}(\lambda)>$ residual')
     plt.xlim(400,720)
     plt.tight_layout()
     plt.grid()
 
+#    plt.subplot(1,3,2)
+ #   for i in range(len(pig_keys)):
     
+ #      pig_name =  pig_keys[i]
+  #      p_threshold = np.percentile(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'], 90)
+  #      threshold_index = np.where(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'] > p_threshold)
+  #      df_ap_threshold = df_ap_int_combined.iloc[threshold_index]
+  #      ap_threshold = np.array(df_ap_threshold)
+  #      ap_resid = np.nan*np.ones([len(ap_threshold), len(ap_threshold.T)])
+ #       for j in range(len(ap_threshold)):
+ #             ap_resid[j,:] = 100*(ap_threshold[j,:] - global_med)/global_med
+    #    plt.plot(wv,np.nanmedian(ap_resid,axis=0),label=labels[i],linestyle=style_vec[i],linewidth=2)
+        
+   #     df_ap_threshold = []
+   #     df_threshold =[]
+    #    ap_resid[j,:] 
+    
+    #plt.legend()
+ #   plt.xlabel('Wavelength [nm]')
+ #   plt.ylabel('$<a_{p}>$ percentage residual [%]')
+ #   plt.ylim(-40,40)
+  ##  plt.xlim(400,720)
+#    plt.tight_layout()
+  #  plt.grid()
+
+    filename  =  fig_dir + '/'  + '_limitingcases.png'
+    plt.savefig(filename,dpi=600)
+
 
     return
 
@@ -2206,6 +2328,9 @@ def _ap_limitingcases():
 if __name__ == '__main__':
     
     ###########################################################################
+    
+    fig_dir = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/paperplots/'
+    
     # AMT 19 - seabass and nc data (for cross-check)
     fn_nc_19 = '/users/rsg/tjor/scratch_network/AMT_underway/AMT19/Processed/Step3/amt19_final_with_debiased_chl.nc'
    # fn_chl_19 = '/data/datasets/cruise_data/active/ACS_Chl/amtacs/AMT19_ACS_CHL-A_MEDFILT_BIAS_CORRECTED.csv'
@@ -2242,14 +2367,14 @@ if __name__ == '__main__':
     ###########################################################################
     # AMT 25 - seabass and nc data (for cross-check)
     fn_nc_25 = '/users/rsg/tjor/scratch_network/AMT_underway/AMT25/Processed/UWay/Step3/amt25_final_with_debiased_chl.nc'
-# fn_chl_25 = '/data/datasets/cruise_data/active/ACS_Chl/amtacs/AMT25_ACS_CHL-A_MEDFILT_BIAS_CORRECTED.csv'
+    # fn_chl_25 = '/data/datasets/cruise_data/active/ACS_Chl/amtacs/AMT25_ACS_CHL-A_MEDFILT_BIAS_CORRECTED.csv'
     data_nc_25 = xr.open_dataset(fn_nc_25)
-   # data_chl_25 = pd.read_csv(fn_chl_25)
+    # data_chl_25 = pd.read_csv(fn_chl_25)
     
     # output initial plots 
     #  plot_median_ap_cp(data_nc_25)
     #  med_unc_plot(data_nc_25)
-   # chl_check(data_nc_25,data_chl_25)
+    # chl_check(data_nc_25,data_chl_25)
     
 
     ###########################################################################
@@ -2315,7 +2440,9 @@ if __name__ == '__main__':
     # load acs sb
    # data_acs_27 = sbs.readSB(fn_sb_acs_27)
   #  print(data_acs_27.data.keys())
-  #  data_acs_27 = data_acs_27.data
+  #  data_acs_27 = data_acs_27.datadef _AMT_timeline():
+      
+
     
      # load hplc sb
   #  data_hplc_27 = sbs.readSB(fn_sb_hplc_27) 
@@ -2344,21 +2471,21 @@ if __name__ == '__main__':
       
     ###########################################################################
     # AMT 28 - seabass and nc data (for cross-check)     
-   # dir_sb_28 = '/users/rsg/tjor/scratch_network/AMT_underway/AMT28/Source/SeaBASS_submit/sb_processed/'
-    #fn_sb_acs_28 =  dir_sb_28 + 'AMT28_InLine0_ACS_20180925_20181028_Particulate_v20230622.sb'
-   # fn_sb_hplc_28 =  dir_sb_28 + 'AMT28_HPLC_20180925_20181027_v20230622.sb'
+    # dir_sb_28 = '/users/rsg/tjor/scratch_network/AMT_underway/AMT28/Source/SeaBASS_submit/sb_processed/'
+    # fn_sb_acs_28 =  dir_sb_28 + 'AMT28_InLine0_ACS_20180925_20181028_Particulate_v20230622.sb'
+    # fn_sb_hplc_28 =  dir_sb_28 + 'AMT28_HPLC_20180925_20181027_v20230622.sb'
     fn_nc_28 = '/users/rsg/tjor/scratch_network/AMT_underway/AMT28/Processed/Underway/Step3/amt28_final_with_debiased_chl.nc'
-   # fn_chl_28 = '/data/datasets/cruise_data/active/ACS_Chl/amtacs/AMT28_ACS_CHL-A_MEDFILT_BIAS_CORRECTED.csv'
+    # fn_chl_28 = '/data/datasets/cruise_data/active/ACS_Chl/amtacs/AMT28_ACS_CHL-A_MEDFILT_BIAS_CORRECTED.csv'
     
     # load acs sb
-  #  data_acs_28 = sbs.readSB(fn_sb_acs_28)
-  #  print(data_acs_28.data.keys())
-  #  data_acs_28 = data_acs_28.data
+    #  data_acs_28 = sbs.readSB(fn_sb_acs_28)
+    #  print(data_acs_28.data.keys())
+    #  data_acs_28 = data_acs_28.data
     
-     # load hplc sb
-  #  data_hplc_28 = sbs.readSB(fn_sb_hplc_28) 
-  #  print(data_hplc_28.data.keys())
-  #  data_hplc_28 = data_hplc_28.data
+    # load hplc sb
+    #  data_hplc_28 = sbs.readSB(fn_sb_hplc_28) 
+    #  print(data_hplc_28.data.keys())
+    #  data_hplc_28 = data_hplc_28.data
     
     # load netcdf
     data_nc_28 = xr.open_dataset(fn_nc_28)
@@ -2369,8 +2496,7 @@ if __name__ == '__main__':
     mask_28 = pd.read_csv(fn_mask_28)
                
     # load previously-processed chl
-    #data_chl_28 = pd.read_csv(fn_chl_28)
-    
+    # data_chl_28 = pd.read_csv(fn_chl_28)
     
     ###########################################################################
     # AMT 29 - seabass and nc data (for cross-check)     
@@ -2383,11 +2509,9 @@ if __name__ == '__main__':
     # LH27 = longhurst_mask(data_nc_27['uway_lat'], data_nc_27['uway_lon'], 'AMT27')
     # LH25 = longhurst_mask(data_nc_25['uway_lat'], data_nc_25['uway_lon'], 'AMT25')
     # LH24 = longhurst_mask(data_nc_24['uway_lat'], data_nc_24['uway_lon'], 'AMT24')
-    # LH23 = longhurst_mask(data_nc_23['uway_lat'], data_nc_24['uway_lon'], 'AMT23')
+    # LH23 = longhurst_mask(data_nc_23['uway_lat'], data_nc_23['uway_lon'], 'AMT23')
     # LH22 = longhurst_mask(data_nc_22['uway_lat'], data_nc_24['uway_lon'], 'AMT22')
-    # LH19 = longhurst_mask(data_nc_19['uway_lat'], data_nc_24['uway_lon'], 'AMT19')
-     
-    
+    #LH19 = longhurst_mask(data_nc_19['uway_lat'], data_nc_19['uway_lon'], 'AMT19')
     #  LH29 = longhurst_mask_HPLC(data_nc_29['hplc_lat'], data_nc_29['hplc_lon'], 'AMT29')
  
     # keys = list(data_nc.data_vars)
@@ -2400,9 +2524,6 @@ if __name__ == '__main__':
     
     fn_mask_hplc = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_HPLC_AMTAMT.csv'
     LH_HPLC = pd.read_csv(fn_mask_hplc)
-    
-
-    
     
     fn_mask_19 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT19.csv'
     mask_19 = pd.read_csv(fn_mask_19)
@@ -2431,9 +2552,9 @@ if __name__ == '__main__':
     fn_mask_29 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT29.csv'
     mask_29 = pd.read_csv(fn_mask_29)
 
-
     pigment_ref = 'hplc_Tot_Chl_a'
     pigment_ref_label= 'Tot Chl-a'
 
 
+    df_hplc = _pig_9cruises()
 
