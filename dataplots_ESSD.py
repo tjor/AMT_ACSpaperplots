@@ -233,7 +233,7 @@ def plot_coverage():
     fname = '/users/rsg/tjor/scratch_network/tjor/AMT_underway/Tests_and_plots/longhurst_v4_2010/Longhurst_world_v4_2010.shp'
     
     shape_feature = ShapelyFeature(Reader(fname).geometries(),
-                                    ccrs.PlateCarree(),facecolor='none')
+                                    ccrs.PlateCarree(),facecolor='none',edgecolor='bisque',linestyle='--')
     ax.add_feature(shape_feature)
     
     
@@ -472,7 +472,6 @@ def plot_median_ap_province():
         N_SANT = np.sum(~np.isnan((ap_mat[mask=='SANT',50])))
 
 
-
         data_nc = data_nc_26 # also abitraty -use to get wavelength
         
         one_over_lamba =(1/data_nc['acs_wv'].values)/np.mean(1/data_nc['acs_wv'].values)
@@ -605,60 +604,146 @@ def plot_median_ap_province():
         plt.tight_layout()
         
         filename  =  fig_dir + '/'  + '_provincemedians.png'
-        plt.savefig(filename,dpi=600)
+        plt.savefig(filename,dpi=600,bbox_inches='tight')
 
         return
 
 
+
 def plot_676_443():
  
-    mask = _9cruise_LH_mask(field = 'LH_Province')
+      plt.figure(figsize=(13,5))
+      plt.rcParams.update({'font.size': 16})
       
-    ap_mat = _9cruise_IOPsum('acs_ap', 'acs2_ap')
-    ap_int = int_norm(ap_mat)
-    
-    colors = cm.Paired(np.linspace(0,1,10))
-    
-    ap_443 = (ap_int[:, 22] + ap_int[:, 23])/2
-    ap_676  = ap_int[:, 138]
-    ap_rat = ap_676/ap_443
-    
-    prov= ['NADR', 'NASW',  'NASE' ,'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'] # FKLD==1, ANTA -4, NECS = 8. do not include
-    
-    rat_vec =[]
-    for i in range(len(prov)):
-        rat_i = np.array(ap_rat)[mask ==str(prov[i])]
-        rat_i =  rat_i[~np.isnan(rat_i)]
-        rat_vec.append(rat_i)                                                                   
-    
-    plt.figure()
-    bp = plt.boxplot(rat_vec ,showfliers=True,patch_artist=True, medianprops=dict(color='black'), whis=[10,90],widths = 0.8) 
-    plt.ylim(0,0.7)
-    
-    
-    plt.ylabel('$a_{p}(676)/a_{p}(443)$')
-    colors = cm.Paired(np.linspace(0,1,10))
-    patches = []
-    for k in range(len(prov)):
+      plt.subplot(1,2,1)
+      mask = _9cruise_LH_mask(field = 'LH_Province')
+      #  
+      ap_mat = _9cruise_IOPsum('acs_ap', 'acs2_ap')
+      ap_int = int_norm(ap_mat)
+      
+      colors = cm.Paired(np.linspace(0,1,10))
+      
+      ap_443 = (ap_int[:, 22] + ap_int[:, 23])/2
+      ap_676  = ap_int[:, 138]
+      ap_rat = ap_676/ap_443
+      
+      prov= ['NADR', 'NASW', 'NASE' ,'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'] # FKLD==1, ANTA -4, NECS = 8. do not include
+      
+      rat_vec =[]
+      for i in range(len(prov)):
+          rat_i = np.array(ap_rat)[mask ==str(prov[i])]
+          rat_i =  rat_i[~np.isnan(rat_i)]
+          rat_vec.append(rat_i)                                                                   
+      bp = plt.boxplot(rat_vec ,showfliers=True,patch_artist=True, medianprops=dict(color='black'), whis=[10,90],widths = 0.8) 
+      plt.ylim(0,0.6)
+      
+      plt.ylabel('$a_{p}(676)/a_{p}(443)$')
+      plt.xlabel('Longhurst Province')
+      
+      colors = cm.Paired(np.linspace(0,1,10))
+      patches = []
+      for k in range(len(prov)):
         bp['boxes'][k].set_facecolor(colors[k])
-       
-        color_string = cl.rgb2hex(colors[k])
-        patches.append(mpatches.Patch(color=color_string, label=str(prov[k])))
+    
+      color_string = cl.rgb2hex(colors[k])
+      patches.append(mpatches.Patch(color=color_string, label=str(prov[k])))
+    
+      #plt.legend(handles=patches,fontsize=14,loc=2)  
+      ax = plt.gca()
+      ax.set_xticklabels(labels= ['NADR', 'NASW',  'NASE' ,'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'],rotation=45)  
+     # ax.set_xticks([])  
+      #ax.set_yticks([])  
+     # ax.set_axis_off()
+      ax=plt.gca()
+      plt.text(0.90, .1,  'A', ha='left', va='top', transform=ax.transAxes,fontsize=22)
+      
+      plt.subplot(1,2,2)
+      chl = _9cruise_chlsum()
+         
+      rat_vec =[]
+      rat_i = ap_rat[np.where(chl < 0.05)[0]]  
+      rat_i =  rat_i[~np.isnan(rat_i)]
+      rat_vec.append(rat_i)                                                                   
+      rat_i = ap_rat[np.where((chl < 0.1) & (chl >0.05))[0]]
+      rat_i =  rat_i[~np.isnan(rat_i)]
+      rat_vec.append(rat_i)   
+      rat_i = ap_rat[np.where((chl < 0.5) & (chl >0.1))[0]]
+      rat_i =  rat_i[~np.isnan(rat_i)]
+      rat_vec.append(rat_i)   
+      rat_i = ap_rat[np.where((chl < 1) & (chl >0.5))[0]]
+      rat_i =  rat_i[~np.isnan(rat_i)]
+      rat_vec.append(rat_i)   
+      rat_i = ap_rat[np.where((chl > 1))[0]]
+      rat_i =  rat_i[~np.isnan(rat_i)]
+      rat_vec.append(rat_i)   
         
-        
-   # plt.legend(handles=patches,fontsize=14,loc=2)
-    ax = plt.gca()
-    ax.set_xticklabels(labels= ['NADR', 'NASW',  'NASE' ,'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'],rotation=45)  
-   # ax.set_xticks([])  
-   # ax.set_yticks([])  
-   # ax.set_axis_off()
-   
-    filename  =  fig_dir + '/'  + '_675over473.png'
-    plt.savefig(filename,dpi=600)
+    
+      bp = plt.boxplot(rat_vec ,showfliers=True,patch_artist=True, medianprops=dict(color='black'), whis=[10,90],widths = 0.8) 
+      plt.ylim(0,0.6)
+      
+      colors = cm.tab20(np.linspace(0,1,10))
+      patches = []
+      for k in range(5):
+        bp['boxes'][k].set_facecolor(colors[k])
+      plt.ylabel('$a_{p}(676)/a_{p}(443)$')
+      #plt.legend(handles=patches,fontsize=14,loc=2)  
+      ax = plt.gca()
+      ax.set_xticklabels(labels= ['$C(a_{p})$ < 0.05 ', ' 0.05 < $C(a_{p})$ < 0.1',  ' 0.1 < $C(a_{p})$ < 0.5' ,' 0.5 < $C(a_{p})$ < 1','$C(a_{p})$ > 1', ],rotation=20,fontsize=14)  
+      plt.xlabel('Longhurst Province')
+      
+      plt.xlabel('Tot_Chl_a concentration  [mg m$^{-3}]$')
+
+      ax=plt.gca()
+      plt.text(0.90, .1,  'B', ha='left', va='top', transform=ax.transAxes,fontsize=22)
+    
+      filename  =  fig_dir + '/'  + '_675over473.png'
+      plt.savefig(filename,dpi=600,bbox_inches='tight')
 
     
-    return
+      return
 
+
+def plot_chl_hist():
+    
+      plt.figure(figsize=(13,5))
+      plt.rcParams.update({'font.size': 16})
+      
+      plt.subplot(1,2,1)
+      chl = _9cruise_chlsum()
+      bins = np.arange(0.01,10,0.25)
+      hist, bins = np.histogram(chl, bins=bins)
+      logbins = np.logspace(np.log10(bins[0]),np.log10(bins[-1]),len(bins))
+      plt.hist(chl, bins=logbins,edgecolor='black',label='N =' + str(np.sum(~np.isnan(chl))))
+      plt.xscale('log')
+      plt.ylabel('$N_{ACS/AC9}$')
+      plt.xlabel('Tot_Chl_a concentration  [mg m$^{-3}]$')
+      plt.xlim(0.01,10)
+      
+      plt.legend()
+      ax=plt.gca()
+      plt.text(0.05, .95,  'A', ha='left', va='top', transform=ax.transAxes,fontsize=22)  
+        
+        
+      
+      plt.subplot(1,2,2)
+      chl = df_hplc['hplc_Tot_Chl_a']
+      bins = np.arange(0.01,10,0.25)
+      hist, bins = np.histogram(chl, bins=bins)
+      logbins = np.logspace(np.log10(bins[0]),np.log10(bins[-1]),len(bins))
+      plt.hist(chl, bins=logbins,edgecolor='black',color='orange',label='N =' + str(len(df_hplc)) )
+      plt.xscale('log')
+      plt.ylabel('$N_{HPLC}$')
+      plt.xlabel('Tot_Chl_a concentration  [mg m$^{-3}]$')
+      plt.xlim(0.01,10)
+  
+      plt.legend()
+      ax=plt.gca()
+      plt.text(0.05, 0.95,  'B', ha='left', va='top', transform=ax.transAxes,fontsize=22)  
+        
+      filename  =  fig_dir + '/'  + '_TChla_hist.png'
+      plt.savefig(filename,dpi=600,bbox_inches='tight')
+
+      return
 
 
 # legacy
@@ -770,20 +855,19 @@ def _pig_9cruises():
     
     return  df_hplc_combined
 
-
-
 def pig_cov(data):
-    
+
     pig_keys = ['hplc_Tot_Chl_a','hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
-                'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_But-fuco', 
-                'hplc_Diadino','hplc_Diato','hplc_Fuco',
-                'hplc_Hex-fuco','hplc_Perid', 'hplc_Zea', 'hplc_PPC', 'hplc_PSC']
-    
-    pig_labels = ['Tot_Chl_a','Tot_Chl_b', 'Tot_Chl_c' , 
-                  'Allo','$\alpha$-$\beta$-Car', 'But-fuco', 
-                  'Diadino','Diato','Hex-fuco',
-                  'Perid', 'Zea', 'PPC', 'PSC']
-    
+                'hplc_PPC', 'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_Diadino', 'hplc_Diato', 'hplc_Zea',
+                'hplc_PSC', 'hplc_But-fuco', 'hplc_Hex-fuco', 'hplc_Fuco', 'hplc_Perid']
+
+
+
+    pig_labels =  ['Tot_Chl_a','Tot_Chl_b', 'Tot_Chl_c' , 
+               'PPC', 'Allo','alpha-beta-Car', 'hplc_Diato', 'Diadino', 'Zea',
+               'PSC', 'But-fuco', 'Hex-fuco', 'Fuco', 'Perid']
+
+
     plt.figure(figsize=(18,22))
     plt.subplot(2,1,1)
     plt.rcParams.update({'font.size': 22})
@@ -795,14 +879,14 @@ def pig_cov(data):
             if i < j: 
                 C[i, j] = scipy.stats.pearsonr(data[pig_keys[i]]/data['hplc_Tot_Chl_a'], data[pig_keys[j]]/data['hplc_Tot_Chl_a'])[0]
 
-    
+
     plt.pcolor(np.flipud(C.T), cmap='bwr', vmin=-1, vmax=1)
     cbar = plt.colorbar()
     cbar.set_label('Correlation coefficient, $r$', rotation=90 ,labelpad=30)
-    
+
     plt.xlim(1,14)
     plt.ylim(0,14)
-    
+
     for i in range(C.shape[0]):
         for j in range(C.shape[1]):
             if np.isnan(C[i, j]) == 0:
@@ -812,16 +896,16 @@ def pig_cov(data):
                          )
     ax = plt.gca()
     ax.set_xticks([1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5], 
-                  labels =  ['Tot_Chl_b', 'Tot_Chl_c' , 
-                                'Allo','alpha-beta-Car', 'But-fuco', 
-                                'Diadino','Diato','Fuco',
-                                'Hex-fuco','Perid', 'Zea', 'PPC', 'PSC'])
-           
+    labels =  ['Tot_Chl_b', 'Tot_Chl_c' , 
+               'PPC', 'Allo','alpha-beta-Car', 'Diadino', 'Diato', 'Zea',
+               'PSC', 'But-fuco', 'Hex-fuco', 'Fuco', 'Perid'])
+
+
+
     plt.xticks(rotation=45)                 
     ax.set_yticks([0.5, 1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5],
-           labels = ['PSC', 'PPC', 'Zea','Perid', 'Hex-fuco', 'Fuco', 'Diato',  'Diadino', 'But-fuco', 'alpha-beta-Car', 'Allo',  'Tot_Chl_c' ,'Tot_Chl_b', 'Tot_Chl_a'])
-          
-    
+                  labels =  ['Perid', 'Fuco', 'Hex-fuco', 'But-fuco', 'PSC', 'Zea', 'Diato','Diadino','alpha-beta-Car','Allo','PPC','Tot_Chl_c','Tot_Chl_b','Tot_Chl_a'])
+
     plt.subplot(2,1,2)
     plt.rcParams.update({'font.size': 22})
     C = np.nan*np.ones([len(pig_keys), len(pig_keys)])
@@ -831,14 +915,14 @@ def pig_cov(data):
                 C[i, j] = (scipy.stats.pearsonr(data[pig_keys[i]], data[pig_keys[j]])[0])**2
             if i < j: 
                C[i, j] = (scipy.stats.pearsonr(data[pig_keys[i]]/data['hplc_Tot_Chl_a'], data[pig_keys[j]]/data['hplc_Tot_Chl_a'])[0])**2
-    
+
     plt.pcolor(np.flipud(C.T), cmap='Oranges', vmin=0, vmax=1)
     cbar = plt.colorbar()
     cbar.set_label('Coefficient of determination, $r^2$', rotation=90, labelpad=30)
-    
+
     plt.xlim(1,14)
     plt.ylim(0,14)
-    
+
     for i in range(C.shape[0]):
         for j in range(C.shape[1]):
             if np.isnan(C[i, j]) == 0:
@@ -848,58 +932,59 @@ def pig_cov(data):
                          )
     ax = plt.gca()
     ax.set_xticks([1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5], 
-                    labels =  ['Tot_Chl_b', 'Tot_Chl_c' , 
-                                  'Allo','alpha-beta-Car', 'But-fuco', 
-                                  'Diadino','Diato','Fuco',
-                                  'Hex-fuco','Perid', 'Zea', 'PPC', 'PSC'])
-             
+             labels =  ['Tot_Chl_b', 'Tot_Chl_c' , 
+                        'PPC', 'Allo','alpha-beta-Car', 'Diadino', 'Diato', 'Zea',
+                        'PSC', 'But-fuco', 'Hex-fuco', 'Fuco', 'Perid'])
+
+
     plt.xticks(rotation=45)                 
     ax.set_yticks([0.5, 1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5],
-    labels = ['PSC', 'PPC', 'Zea','Perid', 'Hex-fuco', 'Fuco', 'Diato',  'Diadino', 'But-fuco', 'alpha-beta-Car', 'Allo',  'Tot_Chl_c' ,'Tot_Chl_b', 'Tot_Chl_a'])
-   
+    labels =  ['Perid', 'Fuco', 'Hex-fuco', 'But-fuco', 'PSC', 'Zea', 'Diato','Diadino','alpha-beta-Car','Allo','PPC','Tot_Chl_c','Tot_Chl_b','Tot_Chl_a'])
+
     plt.tight_layout(pad=1.2)
-    
+
     filename  =  fig_dir + '/'  + '_pigscovmat.png'
     plt.savefig(filename,dpi=600)
-    
-    
+
+
     return
 
 
+
 def pigs_byprov(): 
-       
+
     prov= ['NADR', 'NASW','NASE',  'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'] # FKLD==1, ANTA -4, NECS = 8. do not include
-                               
-    pig_keys = ['hplc_Tot_Chl_a','hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
-                'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_But-fuco', 
-                'hplc_Diadino','hplc_Diato','hplc_Fuco',
-                'hplc_Hex-fuco','hplc_Perid', 'hplc_Zea']
-     
+
+    pig_keys = ['hplc_Tot_Chl_a','hplc_Tot_Chl_b', 'hplc_Tot_Chl_c', 
+                'hplc_PPC', 'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_Diadino','hplc_Diato', 'hplc_Zea',
+                'hplc_PSC', 'hplc_But-fuco', 'hplc_Hex-fuco', 'hplc_Fuco', 'hplc_Perid']
+
     labels =  ['Tot_Chl_a', 'Tot_Chl_b', 'Tot_Chl_c' , 
-                  'Allo','alpha-beta-Car', 'But-fuco', 
-                  'Diadino','Diato','Fuco',
-                  'Hex-fuco','Perid', 'Zea']
-    
+               'PPC', 'Allo','alpha-beta-Car', 'Diadino', 'Diato','Zea',
+               'PSC', 'But-fuco', 'Hex-fuco', 'Fuco', 'Perid']
+
+
+
     letters = ['A', 'B', 'C' ,'D' ,'E' ,'F','G' , 'H']
-    
-    
+
+
     plt.figure(figsize=(13,13))    
     plt.rcParams.update({'font.size': 18})
     for i in range(len(prov)):
         plt.subplot(3, 3, i+1)  
         plt.title(prov[i] + ': N = ' + str(np.sum(LH_HPLC['LH_Province'] ==str(prov[i]))))
-    
+
         pig_vec = []
         for j in range(len(pig_keys)):
             pig_j = np.array(df_hplc[pig_keys[j]])[LH_HPLC['LH_Province'] ==str(prov[i])]
             pig_j[pig_j==0] = np.nan
             pig_j =pig_j[~np.isnan(pig_j)]
             pig_vec.append(pig_j)                                                                   
-    
+
         bp = plt.boxplot(pig_vec ,showfliers=True,patch_artist=True, medianprops=dict(color='black'), whis=[10,90],widths = 0.8) 
         plt.yscale('log')
-    
-        
+
+
         ax = plt.gca()
         ax.set_xticks([])  
         ax.set_ylim([0.0003, 5])
@@ -909,101 +994,97 @@ def pigs_byprov():
             plt.ylabel('Concentration [mg m$^{-3}]$')
         if i==6:
             plt.ylabel('Concentration [mg m$^{-3}]$')
-        
+
         plt.text(.90, .95,  letters[i], ha='left', va='top', transform=ax.transAxes,fontsize=22)  
-    
-    
-        colors = cm.Paired(np.linspace(0,1,len(pig_keys))) 
+
+
+        colors = cm.tab20(np.linspace(0,1,len(pig_keys))) 
         patches = []
         for k in range(len(pig_keys)):
             bp['boxes'][k].set_facecolor(colors[k])
             color_string = cl.rgb2hex(colors[k])
             patches.append(mpatches.Patch(color=color_string, label=labels[k]))
-        
+
             plt.tight_layout(pad=1.2)
-       
+
     plt.subplot(3,3,9)
-    plt.legend(handles=patches,fontsize=14,loc=2)
+    plt.legend(handles=patches,fontsize=14,loc=2,ncol=2)
     ax = plt.gca()
     ax.set_xticks([])  
     ax.set_yticks([])  
     ax.set_axis_off()
-    
+
     filename  =  fig_dir + '/'  + '_pigsbyprov.png'
     plt.savefig(filename,dpi=600)
-    
-    
+
+
     return
 
-
-
 def pigs_byprov_ratio(): 
-       
+
     prov= ['NADR', 'NASW','NASE',  'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'] # FKLD==1, ANTA -4, NECS = 8. do not include
-                               
-    pig_keys = ['hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
-                'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_But-fuco', 
-                'hplc_Diadino','hplc_Diato','hplc_Fuco',
-                'hplc_Hex-fuco','hplc_Perid', 'hplc_Zea']
-     
+
+    pig_keys = ['hplc_Tot_Chl_b', 'hplc_Tot_Chl_c', 
+                'hplc_PPC', 'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_Diadino', 'hplc_Diato',
+                'hplc_Zea', 'hplc_PSC', 'hplc_But-fuco', 'hplc_Hex-fuco', 'hplc_Fuco', 'hplc_Perid']
+
     labels =  ['Tot_Chl_b', 'Tot_Chl_c' , 
-                  'Allo','alpha-beta-Car', 'But-fuco', 
-                  'Diadino','Diato','Fuco',
-                  'Hex-fuco','Perid', 'Zea']
-    
+               'PPC', 'Allo','alpha-beta-Car', 'Diadino', 'Diato', 'Zea',
+               'PSC', 'But-fuco', 'Hex-fuco', 'Fuco', 'Perid']
+
+
     letters = ['A', 'B', 'C' ,'D' ,'E' ,'F','G' , 'H']
-    
-    
+
+
     plt.figure(figsize=(13,13))    
     plt.rcParams.update({'font.size': 18})
     for i in range(len(prov)):
         plt.subplot(3, 3, i+1)  
         plt.title(prov[i] + ': N = ' + str(np.sum(LH_HPLC['LH_Province'] ==str(prov[i]))))
-    
+
         pig_vec = []
         for j in range(len(pig_keys)):
             pig_j = np.array(df_hplc[pig_keys[j]]/df_hplc['hplc_Tot_Chl_a'])[LH_HPLC['LH_Province'] ==str(prov[i])]
             pig_j[pig_j==0] = np.nan
             pig_j =pig_j[~np.isnan(pig_j)]
             pig_vec.append(pig_j)    
-             
+
         bp = plt.boxplot(pig_vec ,showfliers=True,patch_artist=True, medianprops=dict(color='black'), whis=[10,90],widths = 0.8) 
         plt.yscale('log')
-    
-        
+
+
         ax = plt.gca()
         ax.set_xticks([])  
-        ax.set_ylim([0.003, 1])
+        ax.set_ylim([0.003, 3])
         if i==0:
             plt.ylabel('Concentration ratio')
         if i==3:
             plt.ylabel('Concentration ratio')
         if i==6:
             plt.ylabel('Concentration ratio')
-            
-        plt.text(.05, .08,  letters[i], ha='left', va='top', transform=ax.transAxes,fontsize=22)  
-    
-        colors = cm.Paired(np.linspace(0,1,len(pig_keys)+1)) 
+
+        plt.text(.90, .95,  letters[i], ha='left', va='top', transform=ax.transAxes,fontsize=22)  
+
+        colors = cm.tab20(np.linspace(0,1,len(pig_keys)+1)) 
         patches = []
         for k in range(len(pig_keys)):
             bp['boxes'][k].set_facecolor(colors[k+1])
             color_string = cl.rgb2hex(colors[k+1])
             patches.append(mpatches.Patch(color=color_string, label=labels[k]))
-        
+
             plt.tight_layout(pad=1.2)
-       
+
     plt.subplot(3,3,9)
-    plt.legend(handles=patches,fontsize=14,loc=2)
+    plt.legend(handles=patches,fontsize=14,loc=2,ncols=2)
     ax = plt.gca()
     ax.set_xticks([])  
     ax.set_yticks([])  
     ax.set_axis_off()
-    
+
     filename  =  fig_dir + '/'  + '_pigsbyprovratio.png'
     plt.savefig(filename,dpi=600)
-    
-    return
 
+    return
 
 
 
@@ -2066,7 +2147,7 @@ def _AMT_timeline():
     
        
     filename  =  fig_dir + '/'  + '_AMT_timeline.png'
-    plt.savefig(filename,dpi=600)
+    plt.savefig(filename,dpi=600,bbox_inches='tight')
 
     return
 
@@ -2074,7 +2155,7 @@ def _AMT_timeline():
 def _color_by_prov_chl(data_nc, mask, plot_index):
     
     plt.subplot(5,2,plot_index)
-    letters = ['AMT 19', 'AMT 22' , 'AMT 23', 'AMT 24', 'AMT 25', 'AMT 26', 'AMT 27' ,'AMT 28', 'AMT 29']
+    letters = ['A: AMT 19', 'B: AMT 22' , 'C: AMT 23', 'D: AMT 24', 'E: AMT 25', 'F: AMT 26', 'G: AMT 27' ,'H: AMT 28', 'I: AMT 29']
         
     if plot_index == 1 or plot_index == 8:    
         acs_key ='acx_chl_debiased'
@@ -2086,32 +2167,39 @@ def _color_by_prov_chl(data_nc, mask, plot_index):
     
     prov_extra= ['NECS', 'FKLD', 'ANTA']
     for i in range(len(prov_extra)):
-        plt.scatter(np.array(data_nc['time'])[mask==prov_extra[i]], np.array(data_nc[acs_key])[mask==prov_extra[i]], s=2, color='gray')
+        plt.scatter(np.array(data_nc['uway_lat'])[mask==prov_extra[i]], np.array(data_nc[acs_key])[mask==prov_extra[i]], s=2, color='gray')
         if plot_index == 4 or plot_index == 5:    
-            plt.scatter(np.array(data_nc['time'])[mask==prov_extra[i]], np.array(data_nc[acs2_key])[mask==prov_extra[i]], s=2, color='gray')
+            plt.scatter(np.array(data_nc['uway_lat'])[mask==prov_extra[i]], np.array(data_nc[acs2_key])[mask==prov_extra[i]], s=2, color='gray')
   
     prov= ['NADR', 'NASE', 'NASW', 'NATR', 'WTRA', 'SATL', 'SSTC', 'SANT'] 
     colors = cm.Paired(np.linspace(0,1,10))
     
     for i in range(len(prov)):
-        plt.scatter(np.array(data_nc['time'])[mask==prov[i]], np.array(data_nc[acs_key])[mask==prov[i]],color=colors[i], s=2)
+        plt.scatter(np.array(data_nc['uway_lat'])[mask==prov[i]], np.array(data_nc[acs_key])[mask==prov[i]],color=colors[i], s=2)
         if plot_index == 4 or plot_index == 5:  
-            plt.scatter(np.array(data_nc['time'])[mask==prov[i]], np.array(data_nc[acs2_key])[mask==prov[i]],color=colors[i], s=2)
+            plt.scatter(np.array(data_nc['uway_lat'])[mask==prov[i]], np.array(data_nc[acs2_key])[mask==prov[i]],color=colors[i], s=2)
     
         
-    if plot_index == 1 or plot_index == 8:
-         plt.scatter(data_nc.acx_chl_debiased.match_up_dates, data_nc.acx_chl_debiased.HPLC_Tot_chla, s=10, color='black')
-    elif plot_index == 4 or plot_index == 5: 
-         plt.scatter(data_nc.acs2_chl_debiased.match_up_dates,data_nc.acs2_chl_debiased.HPLC_Tot_chla, s=10,color='black')    
-    else:
-         plt.scatter(data_nc.acs_chl_debiased.match_up_dates,data_nc.acs_chl_debiased.HPLC_Tot_chla, s=10,color='black')
+    #if plot_index == 1 or plot_index == 8:
+    #      plt.scatter(data_nc.acx_chl_debiased.match_up_dates, data_nc.acx_chl_debiased.HPLC_Tot_chla, s=10, color='black')
+    #  elif plot_index == 4 or plot_index == 5: 
+    #      plt.scatter(data_nc.acs2_chl_debiased.match_up_dates,data_nc.acs2_chl_debiased.HPLC_Tot_chla, s=10,color='black')    
+    # else:
+    #      plt.scatter(data_nc.acs_chl_debiased.match_up_dates,data_nc.acs_chl_debiased.HPLC_Tot_chla, s=10,color='black')
+
+        
+    plt.scatter(np.array(data_nc['hplc_lat'])[data_nc['hplc_depth']<10], np.array(data_nc['hplc_Tot_Chl_a'])[data_nc['hplc_depth']<10],s=10, color='black')
+
+      # plt.scatter(data_nc['hplc_lat'], data_nc['hplc_Tot_Chl_a'], s=10, color='black')
 
     plt.yscale('log')
     plt.ylim(0.01,7)
     ax=plt.gca()
-    ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%m-%d') )
-    ax.xaxis.set_major_locator(matplotlib.dates.MonthLocator(bymonthday=[1,5,10,15,20,25]))
-    plt.xticks(rotation=45)
+    plt.xlim(-56,52)
+    plt.gca().invert_xaxis()
+    # ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%m-%d') )
+    #ax.xaxis.set_major_locator(matplotlib.dates.MonthLocator(bymonthday=[1,5,10,15,20,25]))
+    #plt.xticks(rotation=45)
 
     plt.text(.02, .94,  letters[plot_index-1], ha='left', va='top', transform=ax.transAxes,fontsize=20) 
 
@@ -2123,7 +2211,7 @@ def _color_by_prov_chl(data_nc, mask, plot_index):
 
 def chl_time_series():
     
-    fig = plt.figure(figsize=(14,16))
+    fig = plt.figure(figsize=(16,16))
     plt.rcParams.update({'font.size': 16})
     _color_by_prov_chl(data_nc_19, mask_19['LH_Province'], 1)
     _color_by_prov_chl(data_nc_22, mask_22['LH_Province'], 2)
@@ -2136,16 +2224,16 @@ def chl_time_series():
     _color_by_prov_chl(data_nc_29, mask_29['LH_Province'], 9)
     
     fig.supylabel('Tot_Chl_a concentration  [mg m$^{-3}]$')
-    fig.supxlabel('Date (MM-DD) within each year')
+    fig.supxlabel('Latitude [$^{\circ}$]')
     
     colors = cm.Paired(np.linspace(0,1,10)) 
-    prov = ['ACS: NADR', 'ACS: NASE', 'ACS: NASW', 'ACS: NATR', 'ACS: WTRA', 'ACS: SATL', 'ACS: SSTC', 'ACS: SANT']     
+    prov = ['IOP: NADR', 'IOP: NASE', 'IOP: NASW', 'IOP: NATR', 'IOP: WTRA', 'IOP: SATL', 'IOP: SSTC', 'IOP: SANT']     
     patches = []
     for k in range(8):
         color_string = cl.rgb2hex(colors[k])
         patches.append(mpatches.Patch(color=color_string, label=prov[k]))
     
-    patches.append(mpatches.Patch(color='gray', label='ACS: OTHER'))
+    patches.append(mpatches.Patch(color='gray', label='IOP: OTHER'))
     #patches.append(mpatches.Patch(color='black', label='HPLC'))
     
     ax = plt.subplot(5,2,10)
@@ -2168,13 +2256,15 @@ def chl_time_series():
 
     return
 
+
 def int_globalmed():
     
-    ap_mat = _9cruise_IOPsum('acs_ap', 'acs2_ap')          
+    ap_mat = _9cruise_IOPsum('acs_ap', 'acs2_ap')       
+    global_med = np.nanmedian(ap_mat,axis=0)
     ap_int = int_norm(ap_mat)
-    global_med = np.nanmedian(ap_int,axis=0)
+    global_med_int = np.nanmedian(ap_int,axis=0)
 
-    return  global_med
+    return  global_med, global_med_int
 
 
 
@@ -2194,44 +2284,44 @@ def _ap_limitingcases():
     df_ap_combined = pd.concat([df_ap_29, df_ap_28, df_ap_27, df_ap_26, df_ap_25, df_ap_24, df_ap_23, df_ap_22, df_ap_19 ])
     df_ap_int_combined = pd.concat([df_ap_int_29, df_ap_int_28, df_ap_int_27, df_ap_int_26, df_ap_int_25, df_ap_int_24, df_ap_int_23, df_ap_int_22, df_ap_int_19 ])
     
-    
     df_hplc_combined = df_hplc_combined[np.isnan(df_ap_combined['400.0'])==0]
     df_ap_combined = df_ap_combined[np.isnan(df_ap_combined['400.0'])==0]
     df_ap_int_combined = df_ap_int_combined[np.isnan(df_ap_int_combined['400.0'])==0]
     
-    global_med = int_globalmed()
+    global_med, global_med_int = int_globalmed()
     wv = data_nc_26['acs_wv'].values
     
-   # pig_keys = ['hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
+    # pig_keys = ['hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
     #            'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_But-fuco', 
      #           'hplc_Diadino','hplc_Diato','hplc_Fuco',
       #         'hplc_Hex-fuco','hplc_Perid', 'hplc_Zea']
     
-   # labels =  [ 'Tot_Chl_b', 'Tot_Chl_c' , 
+    # labels =  [ 'Tot_Chl_b', 'Tot_Chl_c' , 
     #             'Allo','alpha-beta-Car', 'But-fuco', 
      #            'Diadino','Diato','Fuco',
       #           'Hex-fuco','Perid', 'Zea']
     
     pig_keys = ['hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
                'hplc_PPC', 'hplc_PSC']
-              
-    labels =  [ 'Tot_Chl_b', 'Tot_Chl_c' , 
-                  'PPC', 'PSC']
-    
-        
-    plt.figure(figsize=(15,5))
-    plt.subplot(1,3,1)
+
     style_vec  = ['solid','dotted','dashed','dashdot','solid']
     
-    for i in range(len(pig_keys)):
     
+    
+
+    plt.rcParams.update({'font.size': 18})    
+    plt.figure(figsize=(15,5))
+    plt.subplot(1,3,1)
+
+    plt.plot(wv,global_med, color='black')    
+    for i in range(len(pig_keys)):
         pig_name =  pig_keys[i]
         p_threshold = np.percentile(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'], 90)
         threshold_index = np.where(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'] > p_threshold)
         df_ap_threshold = df_ap_combined.iloc[threshold_index]
         ap_threshold = np.array(df_ap_threshold)
         
-        plt.plot(wv,np.nanmedian(ap_threshold,axis=0),label=labels[i],linestyle=style_vec[i],linewidth=2)
+        plt.plot(wv,np.nanmedian(ap_threshold,axis=0),linestyle=style_vec[i],linewidth=2)
         df_ap_threshold = []
         ap_threshold =[]
         
@@ -2243,31 +2333,35 @@ def _ap_limitingcases():
     plt.xlim(400,720)
  
     
-    
+    p_labels=[]
     plt.subplot(1,3,2)
-    plt.plot(wv,global_med,label='Global median', color='black')    
+    plt.plot(wv,global_med_int, color='black')    
     for i in range(len(pig_keys)):
-    
+     
         pig_name =  pig_keys[i]
         p_threshold = np.percentile(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'], 90)
         threshold_index = np.where(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'] > p_threshold)
         df_ap_threshold = df_ap_int_combined.iloc[threshold_index]
         ap_threshold = np.array(df_ap_threshold)
-    
-        plt.plot(wv,np.nanmedian(ap_threshold,axis=0),label=labels[i],linestyle=style_vec[i],linewidth=2)
+        p_labels.append((1/100)*np.round(p_threshold*100))
+        plt.plot(wv,np.nanmedian(ap_threshold,axis=0),linestyle=style_vec[i],linewidth=2)
         df_ap_threshold = []
         ap_threshold =[]
     ax = plt.gca()
-    plt.text(.90, .95,  'B', ha='left', va='top', transform=ax.transAxes,fontsize=22)  
-    plt.legend(fontsize=14,loc=7)
+    plt.text(.90, .95,'B', ha='left', va='top', transform=ax.transAxes,fontsize=22)  
+  #  plt.legend(fontsize=14,loc=7)
     plt.xlabel('Wavelength [nm]')
     plt.ylabel('$<a_{p}(\lambda)>$')
     plt.xlim(400,720)
  
-  #  plt.grid()
-    
-    
+    # plt.grid()
+  #  breakpoint()
+    labels =  ['Median(Tot_Chl_b/Tot_Chl_a > $P_{90}$),  ($P_{90}$ = ' + str(p_labels[0]) +')', 'Median(Tot_Chl_c/Tot_Chl_a > $P_{90}$), ($P_{90}$ = ' + str(p_labels[1]) +')',
+               'Median(PPC/Tot_Chl_a > $P_{90}$), ($P_{90}$ = ' + str(p_labels[2]) +')', 'Median(PSC/Tot_Chl_a > $P_{90}$), ($P_{90}$ = ' + str(p_labels[3]) +')']
+               
+               
     plt.subplot(1,3,3)
+    plt.plot(wv,np.zeros(len(wv)),label='Global median', color='black')    
     for i in range(len(pig_keys)):
     
         pig_name =  pig_keys[i]
@@ -2277,7 +2371,7 @@ def _ap_limitingcases():
         ap_threshold = np.array(df_ap_threshold)
         ap_resid = np.nan*np.ones([len(ap_threshold), len(ap_threshold.T)])
         for j in range(len(ap_threshold)):
-              ap_resid[j,:] = (ap_threshold[j,:] - global_med)
+              ap_resid[j,:] = (ap_threshold[j,:] - global_med_int)
         plt.plot(wv,np.nanmedian(ap_resid,axis=0),label=labels[i],linestyle=style_vec[i],linewidth=2)
         
         df_ap_threshold = []
@@ -2286,41 +2380,19 @@ def _ap_limitingcases():
     
     #plt.legend()
     ax = plt.gca()
-    plt.text(.90, .95,  'C', ha='left', va='top', transform=ax.transAxes,fontsize=22)
+    plt.text(.90, .95, 'C', ha='left', va='top', transform=ax.transAxes,fontsize=22)
     plt.xlabel('Wavelength [nm]')
     plt.ylabel('$<a_{p}(\lambda)>$ residual')
     plt.xlim(400,720)
     plt.tight_layout()
     plt.grid()
 
-#    plt.subplot(1,3,2)
- #   for i in range(len(pig_keys)):
-    
- #      pig_name =  pig_keys[i]
-  #      p_threshold = np.percentile(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'], 90)
-  #      threshold_index = np.where(df_hplc_combined[pig_name]/df_hplc_combined['hplc_Tot_Chl_a'] > p_threshold)
-  #      df_ap_threshold = df_ap_int_combined.iloc[threshold_index]
-  #      ap_threshold = np.array(df_ap_threshold)
-  #      ap_resid = np.nan*np.ones([len(ap_threshold), len(ap_threshold.T)])
- #       for j in range(len(ap_threshold)):
- #             ap_resid[j,:] = 100*(ap_threshold[j,:] - global_med)/global_med
-    #    plt.plot(wv,np.nanmedian(ap_resid,axis=0),label=labels[i],linestyle=style_vec[i],linewidth=2)
-        
-   #     df_ap_threshold = []
-   #     df_threshold =[]
-    #    ap_resid[j,:] 
-    
-    #plt.legend()
- #   plt.xlabel('Wavelength [nm]')
- #   plt.ylabel('$<a_{p}>$ percentage residual [%]')
- #   plt.ylim(-40,40)
-  ##  plt.xlim(400,720)
-#    plt.tight_layout()
-  #  plt.grid()
+    plt.figlegend(loc='upper center', bbox_to_anchor=(0.5, -0.02),
+    fancybox=True, ncol=2, fontsize=13)
 
+    
     filename  =  fig_dir + '/'  + '_limitingcases.png'
-    plt.savefig(filename,dpi=600)
-
+    plt.savefig(filename,dpi=600,bbox_inches='tight')
 
     return
 
@@ -2329,7 +2401,7 @@ if __name__ == '__main__':
     
     ###########################################################################
     
-    fig_dir = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/paperplots/'
+    fig_dir = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/paperplots_essd/'
     
     # AMT 19 - seabass and nc data (for cross-check)
     fn_nc_19 = '/users/rsg/tjor/scratch_network/AMT_underway/AMT19/Processed/Step3/amt19_final_with_debiased_chl.nc'
@@ -2379,7 +2451,7 @@ if __name__ == '__main__':
 
     ###########################################################################
     # AMT 26 - seabass and nc data (for cross-check)
-   # fn_mask_26 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT26.csv'
+   # fn_mask_26 = '/data/abitibi1/scratch/sc plot_676_443()ratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT26.csv'
    # mask_26 = pd.read_csv(fn_mask_26)
    # plot_median_ap_cp(data_nc_25)
 
@@ -2524,6 +2596,7 @@ if __name__ == '__main__':
     
     fn_mask_hplc = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_HPLC_AMTAMT.csv'
     LH_HPLC = pd.read_csv(fn_mask_hplc)
+        
     
     fn_mask_19 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT19.csv'
     mask_19 = pd.read_csv(fn_mask_19)
