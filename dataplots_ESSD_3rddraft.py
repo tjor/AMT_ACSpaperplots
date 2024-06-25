@@ -1164,7 +1164,9 @@ def plot_pig_cov_v2(data):
                 if (pig_keys[i] != ' ') & (pig_keys[j] != ' '):
                     pig_i = data[pig_keys[i]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
                     pig_j = data[pig_keys[j]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
-                    C[i, j] = scipy.stats.pearsonr(pig_i, pig_j)[0]
+                    P = scipy.stats.linregress(pig_i, pig_j, alternative='two-sided').pvalue
+                    if P < 0.05:
+                        C[i, j] = scipy.stats.pearsonr(pig_i, pig_j)[0]
           
             if i < j:     
                 if (pig_keys[i] != ' ') & (pig_keys[j] != ' '):
@@ -1172,9 +1174,14 @@ def plot_pig_cov_v2(data):
                     pig_j = data[pig_keys[j]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
                     Tchla = data['hplc_Tot_Chl_a'][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
                     if i > 0:
-                        C[i, j] = scipy.stats.pearsonr(pig_i/Tchla, pig_j/Tchla)[0]
+                       # breakpoint()
+                        P = scipy.stats.linregress(pig_i/Tchla, pig_j/Tchla, alternative='two-sided').pvalue
+                        if P < 0.05:
+                            C[i, j] = scipy.stats.pearsonr(pig_i/Tchla, pig_j/Tchla)[0]
                     elif i == 0:
-                        C[i, j] = scipy.stats.pearsonr(pig_i, pig_j/Tchla)[0]
+                        P = scipy.stats.linregress(pig_i, pig_j/Tchla, alternative='two-sided').pvalue
+                        if P < 0.05:
+                            C[i, j] = scipy.stats.pearsonr(pig_i, pig_j/Tchla)[0]
    
     plt.rcParams.update({'font.size': 22})
     plt.pcolor(np.flipud(C.T), cmap='bwr', vmin=-1, vmax=1)
@@ -1202,7 +1209,7 @@ def plot_pig_cov_v2(data):
                'PSC', 'But-fuco', 'Hex-fuco', 'Fuco', 'Perid'])
 
 
-    plt.xticks(rotation=45)                 
+    plt.xticks(rotation=90)                 
     ax.set_yticks([0.5, 1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5,14.5],
                   labels =  ['Perid', 'Fuco', 'Hex-fuco', 'But-fuco', 'PSC', 'Zea', 'Diato','Diadino','alpha-beta-Car','Allo','PPC','Tot_Chl_c','Tot_Chl_b', '  ', 'Tot_Chl_a'])
 
@@ -1216,7 +1223,9 @@ def plot_pig_cov_v2(data):
                if (pig_keys[i] != ' ') & (pig_keys[j] != ' '):
                    pig_i = data[pig_keys[i]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
                    pig_j = data[pig_keys[j]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
-                   C[i, j] = scipy.stats.pearsonr(pig_i, pig_j)[0]**2
+                   P = scipy.stats.linregress(pig_i, pig_j, alternative='two-sided').pvalue
+                   if P < 0.05:
+                       C[i, j] = scipy.stats.pearsonr(pig_i, pig_j)[0]**2
          
            if i < j:     
                if (pig_keys[i] != ' ') & (pig_keys[j] != ' '):
@@ -1224,9 +1233,13 @@ def plot_pig_cov_v2(data):
                    pig_j = data[pig_keys[j]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
                    Tchla = data['hplc_Tot_Chl_a'][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
                    if i > 0:
-                       C[i, j] = scipy.stats.pearsonr(pig_i/Tchla, pig_j/Tchla)[0]**2
+                       P = scipy.stats.linregress(pig_i/Tchla, pig_j/Tchla, alternative='two-sided').pvalue
+                       if P < 0.05:
+                           C[i, j] = scipy.stats.pearsonr(pig_i/Tchla, pig_j/Tchla)[0]**2
                    elif i == 0:
-                       C[i, j] = scipy.stats.pearsonr(pig_i, pig_j/Tchla)[0]**2
+                       P = scipy.stats.linregress(pig_i, pig_j/Tchla, alternative='two-sided').pvalue
+                       if P < 0.05:
+                           C[i, j] = scipy.stats.pearsonr(pig_i, pig_j/Tchla)[0]**2
 
     plt.pcolor(np.flipud(C.T), cmap='Oranges', vmin=0, vmax=1)
     cbar = plt.colorbar()
@@ -1249,7 +1262,7 @@ def plot_pig_cov_v2(data):
                 'PSC', 'But-fuco', 'Hex-fuco', 'Fuco', 'Perid'])
 
 
-    plt.xticks(rotation=45)                 
+    plt.xticks(rotation=90)                 
     ax.set_yticks([0.5, 1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5,14.5],
                   labels =  ['Perid', 'Fuco', 'Hex-fuco', 'But-fuco', 'PSC', 'Zea', 'Diato','Diadino','alpha-beta-Car','Allo','PPC','Tot_Chl_c','Tot_Chl_b', ' ', 'Tot_Chl_a'])
 
@@ -1880,7 +1893,7 @@ if __name__ == '__main__':
 
     # Pigment correlationss - Sect 3.4
     plot_pig_cov(df_hplc)
-  #  plot_pig_cov_v2(df_hplc)
+    plot_pig_cov_v2(df_hplc)
     
     # ap limting case - Sect 3.5
     plot_ap_limitingcases()
