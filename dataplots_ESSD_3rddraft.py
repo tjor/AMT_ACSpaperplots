@@ -3,11 +3,13 @@
 """
 This script is for plotting functions for the manuscript:
 
-Jordan et al. 2024,A compilation of surface inherent optical properties and phytoplankton pigment concentrations 
+Jordan et al. 2024,A compilation of surface inherent optical properties and 
+phytoplankton pigment concentrations 
 from the Atlantic Meridional Transect, submitted to ESSD in 2024.
 
-It uses netcdf versions of the data files in the data release paper.
-
+It uses netcdf versions of the data files in the data release paper. The script 
+checkSeaBASS_ESSD.py is used to check equivalance of data fields in netcdf and 
+SeaBASS.
 
 @author: tom jordan - tjor@pml.ac.uk
 """
@@ -32,7 +34,7 @@ import cartopy.io.img_tiles as cimgt
 from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 
-#
+# use for longhurst
 from xml.dom.minidom import *
 
 # General functions
@@ -838,16 +840,18 @@ def _pig_9cruises():
     df_hplc_29 = _filter_combine_pigs(data_nc_29)
     df_hplc_28 = _filter_combine_pigs(data_nc_28)
     df_hplc_27 = _filter_combine_pigs(data_nc_27)
-    df_hplc_26 = _filter_combine_pigs(data_nc_26, removePML_Tchlb = True)
-    df_hplc_25 = _filter_combine_pigs(data_nc_25, removePML_Tchlb = True)
-    df_hplc_24 = _filter_combine_pigs(data_nc_24, removePML_Tchlb = True)
-    df_hplc_23 = _filter_combine_pigs(data_nc_23, removePML_Tchlb = True)
+    df_hplc_26 = _filter_combine_pigs(data_nc_26, removePML_Tchlb = False)
+    df_hplc_25 = _filter_combine_pigs(data_nc_25, removePML_Tchlb = False)
+    df_hplc_24 = _filter_combine_pigs(data_nc_24, removePML_Tchlb = False)
+    df_hplc_23 = _filter_combine_pigs(data_nc_23, removePML_Tchlb = False)
     df_hplc_22 = _filter_combine_pigs(data_nc_22)
     df_hplc_19 = _filter_combine_pigs(data_nc_19)
     
     df_hplc_combined = pd.concat([df_hplc_29, df_hplc_28, df_hplc_27, df_hplc_26, df_hplc_25, df_hplc_24, df_hplc_23, df_hplc_22, df_hplc_19 ])
+   # df_hplc_combined = pd.concat([df_hplc_29, df_hplc_28, df_hplc_27, df_hplc_22, df_hplc_19 ]) #- removing PML 
+   
+    #df_hplc_combined = pd.concat([df_hplc_26, df_hplc_25, df_hplc_24, df_hplc_23]) # just PML
     
-   # df_hplc_combined = pd.concat([df_hplc_29, df_hplc_28, df_hplc_27, df_hplc_22, df_hplc_19 ]) #- removing PML (for all catrefores)
     
     return  df_hplc_combined
 
@@ -1138,6 +1142,131 @@ def plot_pig_cov(data):
     return
 
 
+def plot_pig_cov_v2(data):
+
+    pig_keys = ['hplc_Tot_Chl_a',' ','hplc_Tot_Chl_b', 'hplc_Tot_Chl_c' , 
+                'hplc_PPC', 'hplc_Allo','hplc_Alpha-beta-Car', 'hplc_Diadino', 'hplc_Diato', 'hplc_Zea',
+                'hplc_PSC', 'hplc_But-fuco', 'hplc_Hex-fuco', 'hplc_Fuco', 'hplc_Perid']
+
+
+    pig_labels =  ['Tot_Chl_a','Tot_Chl_b', 'Tot_Chl_c' , 
+               'PPC', 'Allo','alpha-beta-Car', 'hplc_Diato', 'Diadino', 'Zea',
+               'PSC', 'But-fuco', 'Hex-fuco', 'Fuco', 'Perid']
+
+    plt.figure(figsize=(18,22))
+    plt.subplot(2,1,1)
+    plt.rcParams.update({'font.size': 22})
+    C = np.nan*np.ones([len(pig_keys), len(pig_keys)])
+    for i in range(len(pig_keys)):
+        for j in range(len(pig_keys)):
+            if i > j:
+              #  breakpoint()
+                if (pig_keys[i] != ' ') & (pig_keys[j] != ' '):
+                    pig_i = data[pig_keys[i]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
+                    pig_j = data[pig_keys[j]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
+                    C[i, j] = scipy.stats.pearsonr(pig_i, pig_j)[0]
+          
+            if i < j:     
+                if (pig_keys[i] != ' ') & (pig_keys[j] != ' '):
+                    pig_i = data[pig_keys[i]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
+                    pig_j = data[pig_keys[j]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
+                    Tchla = data['hplc_Tot_Chl_a'][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
+                    if i > 0:
+                        C[i, j] = scipy.stats.pearsonr(pig_i/Tchla, pig_j/Tchla)[0]
+                    elif i == 0:
+                        C[i, j] = scipy.stats.pearsonr(pig_i, pig_j/Tchla)[0]
+   
+    plt.rcParams.update({'font.size': 22})
+    plt.pcolor(np.flipud(C.T), cmap='bwr', vmin=-1, vmax=1)
+    cbar = plt.colorbar()
+    cbar.set_label('Correlation coefficient, $r$', rotation=90 ,labelpad=30)
+
+    plt.xlim(0,15)
+    plt.ylim(0,15)
+
+    ax = plt.gca()
+    ax.text(-0.20, 0.95,  'A', ha='left', va='top', transform=ax.transAxes,fontsize=32)  
+        
+
+    for i in range(C.shape[0]):
+        for j in range(C.shape[1]):
+            if np.isnan(C[i, j]) == 0:
+                plt.text(i + 0.5, 14 -j + 0.5, '%.2f' % C[i, j],
+                         horizontalalignment='center',
+                         verticalalignment='center',
+                         )
+    ax = plt.gca()
+    ax.set_xticks([0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5,14.5], 
+    labels =  ['Tot_Chl_a', ' ', 'Tot_Chl_b', 'Tot_Chl_c' , 
+               'PPC', 'Allo','alpha-beta-Car', 'Diadino', 'Diato', 'Zea',
+               'PSC', 'But-fuco', 'Hex-fuco', 'Fuco', 'Perid'])
+
+
+    plt.xticks(rotation=45)                 
+    ax.set_yticks([0.5, 1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5,14.5],
+                  labels =  ['Perid', 'Fuco', 'Hex-fuco', 'But-fuco', 'PSC', 'Zea', 'Diato','Diadino','alpha-beta-Car','Allo','PPC','Tot_Chl_c','Tot_Chl_b', '  ', 'Tot_Chl_a'])
+
+    plt.subplot(2,1,2)
+    plt.rcParams.update({'font.size': 22})
+    C = np.nan*np.ones([len(pig_keys), len(pig_keys)])
+    for i in range(len(pig_keys)):
+        for j in range(len(pig_keys)):
+           if i > j:
+             #  breakpoint()
+               if (pig_keys[i] != ' ') & (pig_keys[j] != ' '):
+                   pig_i = data[pig_keys[i]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
+                   pig_j = data[pig_keys[j]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
+                   C[i, j] = scipy.stats.pearsonr(pig_i, pig_j)[0]**2
+         
+           if i < j:     
+               if (pig_keys[i] != ' ') & (pig_keys[j] != ' '):
+                   pig_i = data[pig_keys[i]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
+                   pig_j = data[pig_keys[j]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
+                   Tchla = data['hplc_Tot_Chl_a'][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
+                   if i > 0:
+                       C[i, j] = scipy.stats.pearsonr(pig_i/Tchla, pig_j/Tchla)[0]**2
+                   elif i == 0:
+                       C[i, j] = scipy.stats.pearsonr(pig_i, pig_j/Tchla)[0]**2
+
+    plt.pcolor(np.flipud(C.T), cmap='Oranges', vmin=0, vmax=1)
+    cbar = plt.colorbar()
+    cbar.set_label('Coefficient of determination, $r^2$', rotation=90, labelpad=30)
+
+    plt.xlim(0,15)
+    plt.ylim(0,15)
+
+    for i in range(C.shape[0]):
+         for j in range(C.shape[1]):
+             if np.isnan(C[i, j]) == 0:
+                 plt.text(i + 0.5, 14 -j + 0.5, '%.2f' % C[i, j],
+                          horizontalalignment='center',
+                          verticalalignment='center',
+                          )
+    ax = plt.gca()
+    ax.set_xticks([0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5,14.5], 
+    labels =  ['Tot_Chl_a', ' ', 'Tot_Chl_b', 'Tot_Chl_c' , 
+                'PPC', 'Allo','alpha-beta-Car', 'Diadino', 'Diato', 'Zea',
+                'PSC', 'But-fuco', 'Hex-fuco', 'Fuco', 'Perid'])
+
+
+    plt.xticks(rotation=45)                 
+    ax.set_yticks([0.5, 1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5,14.5],
+                  labels =  ['Perid', 'Fuco', 'Hex-fuco', 'But-fuco', 'PSC', 'Zea', 'Diato','Diadino','alpha-beta-Car','Allo','PPC','Tot_Chl_c','Tot_Chl_b', ' ', 'Tot_Chl_a'])
+
+    ax = plt.gca()
+    ax.text(-0.20, 0.95,  'B', ha='left', va='top', transform=ax.transAxes,fontsize=32)  
+        
+
+    plt.tight_layout(pad=1.2)
+
+    filename  =  fig_dir + '/'  + '_pigscovmat_Kramerformat.png'
+    plt.savefig(filename,dpi=600)
+
+
+    return
+
+
+
 # Chl:HPLC plot, Chl transects/histograms
 def plot_total_ABfit():
         '''routine to do power-law fit & plot for combined dataset (Fig 3 in paper)'''
@@ -1315,7 +1444,7 @@ def plot_chl_hist():
       bins = np.arange(0.01,10,0.25)
       hist, bins = np.histogram(chl, bins=bins)
       logbins = np.logspace(np.log10(bins[0]),np.log10(bins[-1]),len(bins))
-      plt.hist(chl, bins=logbins,edgecolor='black',label='N =' + str(np.sum(~np.isnan(chl))))
+      plt.hist(chl, bins=logbins,edgecolor='black',label='Total $N_{ACS/AC9}$ = ' + str(np.sum(~np.isnan(chl))))
       plt.xscale('log')
       plt.ylabel('$N_{ACS/AC9}$')
       plt.xlabel('Tot_Chl_a concentration  [mg m$^{-3}]$')
@@ -1330,7 +1459,7 @@ def plot_chl_hist():
       bins = np.arange(0.01,10,0.25)
       hist, bins = np.histogram(chl, bins=bins)
       logbins = np.logspace(np.log10(bins[0]),np.log10(bins[-1]),len(bins))
-      plt.hist(chl, bins=logbins,edgecolor='black',color='orange',label='N =' + str(len(df_hplc)) )
+      plt.hist(chl, bins=logbins,edgecolor='black',color='orange',label='Total $N_{HPLC}$ = ' + str(len(df_hplc)) )
       plt.xscale('log')
       plt.ylabel('$N_{HPLC}$')
       plt.xlabel('Tot_Chl_a concentration  [mg m$^{-3}]$')
@@ -1695,68 +1824,69 @@ if __name__ == '__main__':
     print(sorted(list(data_nc_29.keys())))   
      
 
-
     # load Longhurst Province masks
-    fn_mask_19 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT19.csv'
+    fn_mask_19 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/Longhurst_masks/LH_mask_AMT19.csv'
     mask_19 = pd.read_csv(fn_mask_19)
     
-    fn_mask_22 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT22.csv'
+    fn_mask_22 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/Longhurst_masks/LH_mask_AMT22.csv'
     mask_22 = pd.read_csv(fn_mask_22)
     
-    fn_mask_23 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT23.csv'
+    fn_mask_23 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/Longhurst_masks/LH_mask_AMT23.csv'
     mask_23 = pd.read_csv(fn_mask_23)
     
-    fn_mask_24 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT24.csv'
+    fn_mask_24 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/Longhurst_masks/LH_mask_AMT24.csv'
     mask_24 = pd.read_csv(fn_mask_24)
     
-    fn_mask_25 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT25.csv'
+    fn_mask_25 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/Longhurst_masks/LH_mask_AMT25.csv'
     mask_25 = pd.read_csv(fn_mask_25)
     
-    fn_mask_26 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT26.csv'
+    fn_mask_26 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/Longhurst_masks/LH_mask_AMT26.csv'
     mask_26 = pd.read_csv(fn_mask_26)
         
-    fn_mask_27 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT27.csv'
+    fn_mask_27 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/Longhurst_masks/LH_mask_AMT27.csv'
     mask_27 = pd.read_csv(fn_mask_27)
         
-    fn_mask_28 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT28.csv'
+    fn_mask_28 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/Longhurst_masks/LH_mask_AMT28.csv'
     mask_28 = pd.read_csv(fn_mask_28)
     
-    fn_mask_29 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_AMT29.csv'
+    fn_mask_29 = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/Longhurst_masks/LH_mask_AMT29.csv'
     mask_29 = pd.read_csv(fn_mask_29)
     
-    fn_mask_hplc = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/LH_mask_HPLC_AMTAMT.csv'
+    fn_mask_hplc = '/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/Longhurst_masks/LH_mask_HPLC_AMTAMT.csv'
     LH_HPLC = pd.read_csv(fn_mask_hplc)
 
     _9cruise_LH_mask(field = 'LH_Province') # stacks LH mask for 9 cruise dataset
-    df_hplc = _pig_9cruises() # stacks pigments into dataframm 
-
-
+    df_hplc = _pig_9cruises() # stacks pigments into dataframe
 
     # Generate figures as used in MS submission
     # Methods figs - Sect. 2
     plot_coverage() # Fig 1 A
     plot_AMT_timeline() # Fig 1 B
-     # see step5/AMT 28 for Fig 2 plots                    
+  #   # see step5/AMT 28 for Fig 2 plots                    
     plot_total_ABfit() # Fig 3
-    
+ #   
     # IOP results figs - Sect 3.1
     plot_median_ap_province() # Fig 4
     plot_676_443() # Fig 5
     plot_uncertainties() # Fig 6
-
+#
     # Tchla results - Sect 3.2
     plot_chl_time_series() # Fig 7
-    plot_chl_hist() # Fig 8
+    plot_chl_hist()  # Fig 8
  
     # Pigment results - Sect 3.3
     plot_pigs_byprov() # Fig 9 
     plot_pigs_byprov_ratio()  # Fig 10
 
-    # Pigment correlationss- Sect 3.4
+    # Pigment correlationss - Sect 3.4
     plot_pig_cov(df_hplc)
+  #  plot_pig_cov_v2(df_hplc)
     
-    # ap limting cases- Sect 3.5
+    # ap limting case - Sect 3.5
     plot_ap_limitingcases()
     
     # code example to generate LH mask
-    mask23 = longhurst_mask(data_nc_23['uway_lat'], data_nc_23['uway_lon'], 'AMT23')
+   # mask19 = longhurst_mask(data_nc_19['uway_lat'], data_nc_19['uway_lon'], 'AMT19')
+    #mask19.to_csv('/data/abitibi1/scratch/scratch_disk/tjor/AMT_underway/Tests_and_plots/Longhurst_masks/LH_mask_AMT19_v2.csv' ,index=False)
+
+    
