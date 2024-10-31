@@ -208,15 +208,17 @@ def plot_coverage():
                                     ccrs.PlateCarree(),facecolor='none',edgecolor='bisque',linestyle='--')
     ax.add_feature(shape_feature)
     
-    ax.scatter(data_nc_19['uway_lon'], data_nc_19['uway_lat'], s=0.5, color='red',label='AMT 19: 2009')
-    ax.scatter(data_nc_22['uway_lon'], data_nc_22['uway_lat'], s=0.5, color='orange',label='AMT 22: 2012')
-    ax.scatter(data_nc_23['uway_lon'], data_nc_23['uway_lat'], s=0.5, color='yellow',label='AMT 23: 2013')
-    ax.scatter(data_nc_24['uway_lon'], data_nc_24['uway_lat'], s=0.5, color='yellowgreen',label='AMT 24: 2014')
-    ax.scatter(data_nc_25['uway_lon'], data_nc_25['uway_lat'], s=0.5, color='lime',label='AMT 25: 2015')
-    ax.scatter(data_nc_26['uway_lon'], data_nc_26['uway_lat'], s=0.5, color='cyan',label='AMT 26: 2016')
-    ax.scatter(data_nc_27['uway_lon'], data_nc_27['uway_lat'], s=0.5, color='magenta',label='AMT 27: 2017')
-    ax.scatter(data_nc_28['uway_lon'], data_nc_28['uway_lat'], s=0.5, color='grey',label='AMT 28: 2018')
-    ax.scatter(data_nc_29['uway_lon'], data_nc_29['uway_lat'], s=0.5, color='white',label='AMT 29: 2019')
+    colors = cm.tab10(np.linspace(0,1,10))    
+       
+    ax.scatter(data_nc_19['uway_lon'], data_nc_19['uway_lat'], s=0.5, color='white', label='AMT 19: 2009')
+    ax.scatter(data_nc_22['uway_lon'], data_nc_22['uway_lat'], s=0.5, color=colors[1], label='AMT 22: 2012')
+    ax.scatter(data_nc_23['uway_lon'], data_nc_23['uway_lat'], s=0.5, color=colors[2], label='AMT 23: 2013')
+    ax.scatter(data_nc_24['uway_lon'], data_nc_24['uway_lat'], s=0.5, color=colors[3], label='AMT 24: 2014')
+    ax.scatter(data_nc_25['uway_lon'], data_nc_25['uway_lat'], s=0.5, color=colors[4], label='AMT 25: 2015')
+    ax.scatter(data_nc_26['uway_lon'], data_nc_26['uway_lat'], s=0.5, color=colors[5], label='AMT 26: 2016')
+    ax.scatter(data_nc_27['uway_lon'], data_nc_27['uway_lat'], s=0.5, color=colors[6], label='AMT 27: 2017')
+    ax.scatter(data_nc_28['uway_lon'], data_nc_28['uway_lat'], s=0.5, color=colors[7], label='AMT 28: 2018')
+    ax.scatter(data_nc_29['uway_lon'], data_nc_29['uway_lat'], s=0.5, color=colors[8], label='AMT 29: 2019')
     plt.legend(markerscale=10 ,loc=4,fontsize=14)                
     
     plt.text(.33, .92,   'NADR', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
@@ -604,23 +606,35 @@ def plot_uncertainties():
     bp_mat = _9cruise_IOPsum('acs_bp', 'acs2_bp')
     cp_mat = _9cruise_IOPsum('acs_cp', 'acs2_cp')
         
-    colors = cm.Paired(np.linspace(0,1,12)) 
-    c1=colors[1]
-    c2=colors[3]
-    c3=colors[5]
+    colors = cm.tab10(np.linspace(0,1,10)) 
+    c1 = colors[0]
+    c2 = colors[1]
+    c3 = colors[3]
+    
+    # plt.figure() # ratio figure for reviewer comments
+    # plt.rcParams.update({'font.size': 16})
+    # plt.plot(data_nc_29['acs_wv'],np.nanmedian(cpu_mat,axis=0)/np.nanmedian(apu_mat,axis=0),label='Median', color=c1)
+    # plt.ylim(0.8,1.6)
+    # plt.xlabel('Wavelength, $\lambda$ [nm]')
+    # plt.ylabel('Median $\sigma_{c_{p}(\lambda)}/\sigma_{a_{p}(\lambda)}$ ratio')
+    # ax = plt.gca()
+    # plt.text(.05, .95,  'D', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
+    # plt.legend(fontsize=12)
     
     plt.figure(figsize=(15,9))
     plt.subplot(2,3,1)
     plt.rcParams.update({'font.size': 16})
-    plt.plot(data_nc_29['acs_wv'],np.nanmedian(apu_mat,axis=0),label='Median', color=c1)
+    plt.plot(data_nc_29['acs_wv'],np.nanmedian(apu_mat,axis=0), label='Median', color=c1)
     plt.plot(data_nc_29['acs_wv'],np.nanpercentile(apu_mat,25,axis=0), color=c1, linestyle='dashed')
     plt.plot(data_nc_29['acs_wv'],np.nanpercentile(apu_mat,75,axis=0), label='Quartiles', color=c1, linestyle='dashed')
     plt.plot(data_nc_29['acs_wv'],np.nanpercentile(apu_mat,90,axis=0), label='10$^{th}$ & 90$^{th}$ percentiles', color=c1,linestyle='dotted')
     plt.plot(data_nc_29['acs_wv'],np.nanpercentile(apu_mat,10,axis=0), color=c1,linestyle='dotted')
-    plt.xlim(400,720)
-    plt.ylim(0,0.015)
+    plt.rcParams.update({'font.size': 16})
+    plt.xlim(400, 720)
+    plt.ylim(0, 0.015)
     plt.xlabel('Wavelength, $\lambda$ [nm]')
     plt.ylabel('$\sigma_{a_p(\lambda)}$ [m$^{-1}$]')
+    plt.rcParams.update({'font.size': 16})
     plt.legend(fontsize=12)
     ax = plt.gca()
     plt.text(.05, .95,  'A', ha='left', va='top', transform=ax.transAxes,fontsize=24) 
@@ -1165,7 +1179,7 @@ def plot_pig_cov_v2(data):
                     pig_i = data[pig_keys[i]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
                     pig_j = data[pig_keys[j]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
                     P = scipy.stats.linregress(pig_i, pig_j, alternative='two-sided').pvalue
-                    if P < 0.05:
+                    if P < 0.01:
                         C[i, j] = scipy.stats.pearsonr(pig_i, pig_j)[0]
           
             if i < j:     
@@ -1176,11 +1190,11 @@ def plot_pig_cov_v2(data):
                     if i > 0:
                        # breakpoint()
                         P = scipy.stats.linregress(pig_i/Tchla, pig_j/Tchla, alternative='two-sided').pvalue
-                        if P < 0.05:
+                        if P < 0.01:
                             C[i, j] = scipy.stats.pearsonr(pig_i/Tchla, pig_j/Tchla)[0]
                     elif i == 0:
                         P = scipy.stats.linregress(pig_i, pig_j/Tchla, alternative='two-sided').pvalue
-                        if P < 0.05:
+                        if P < 0.01:
                             C[i, j] = scipy.stats.pearsonr(pig_i, pig_j/Tchla)[0]
    
     plt.rcParams.update({'font.size': 22})
@@ -1224,7 +1238,7 @@ def plot_pig_cov_v2(data):
                    pig_i = data[pig_keys[i]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
                    pig_j = data[pig_keys[j]][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
                    P = scipy.stats.linregress(pig_i, pig_j, alternative='two-sided').pvalue
-                   if P < 0.05:
+                   if P < 0.01:
                        C[i, j] = scipy.stats.pearsonr(pig_i, pig_j)[0]**2
          
            if i < j:     
@@ -1234,11 +1248,11 @@ def plot_pig_cov_v2(data):
                    Tchla = data['hplc_Tot_Chl_a'][(data[pig_keys[i]] > 0) & (data[pig_keys[j]] > 0)]
                    if i > 0:
                        P = scipy.stats.linregress(pig_i/Tchla, pig_j/Tchla, alternative='two-sided').pvalue
-                       if P < 0.05:
+                       if P < 0.01:
                            C[i, j] = scipy.stats.pearsonr(pig_i/Tchla, pig_j/Tchla)[0]**2
                    elif i == 0:
                        P = scipy.stats.linregress(pig_i, pig_j/Tchla, alternative='two-sided').pvalue
-                       if P < 0.05:
+                       if P < 0.01:
                            C[i, j] = scipy.stats.pearsonr(pig_i, pig_j/Tchla)[0]**2
 
     plt.pcolor(np.flipud(C.T), cmap='Oranges', vmin=0, vmax=1)
@@ -1749,7 +1763,7 @@ def plot_ap_limitingcases():
                
                
     plt.subplot(1,3,3)
-    plt.plot(wv,np.zeros(len(wv)),label='Global median', color='black')    
+    plt.plot(wv,np.zeros(len(wv)),label='AMT median', color='black')    
     for i in range(len(pig_keys)):
     
         pig_name =  pig_keys[i]
@@ -1870,6 +1884,7 @@ if __name__ == '__main__':
 
     _9cruise_LH_mask(field = 'LH_Province') # stacks LH mask for 9 cruise dataset
     df_hplc = _pig_9cruises() # stacks pigments into dataframe
+
 
     # Generate figures as used in MS submission
     # Methods figs - Sect. 2
