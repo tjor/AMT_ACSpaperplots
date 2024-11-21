@@ -29,6 +29,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.patches as mpatches
 import matplotlib.colors as cl
+import cartopy
 import cartopy.crs as ccrs
 import cartopy.io.img_tiles as cimgt
 from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
@@ -185,8 +186,13 @@ def plot_coverage():
     plt.figure(figsize=(15,10))
     extent = [-65,20,-55, 60]
     request = cimgt.GoogleTiles(style='satellite')
+    #request = cimgt.OSM()
+    
     ax = plt.axes(projection=ccrs.PlateCarree())
-    ax.add_image(request, 6)
+    #ax.add_image(request, 7)
+    ax.coastlines()
+    ax.add_feature(cartopy.feature.OCEAN,facecolor=("lightblue"))
+    ax.add_feature(cartopy.feature.LAND, edgecolor='black')
     ax.set_extent(extent, ccrs.PlateCarree())
     gl = ax.gridlines(draw_labels=True)
     gl.top_labels_top = gl.right_labels = False
@@ -194,41 +200,42 @@ def plot_coverage():
     gl.yformatter =  LATITUDE_FORMATTER
     gl.xlabel_style = {'size': 14,  'rotation':45}
     gl.ylabel_style = {'size': 14,  'rotation': 0}
-    
+        
     lon_formatter = LongitudeFormatter(zero_direction_label=True)
     lat_formatter = LatitudeFormatter()
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.tick_params(labelsize=10)
     
+
     from cartopy.io.shapereader import Reader
     from cartopy.feature import ShapelyFeature
     
     fname = '/users/rsg/tjor/scratch_network/tjor/AMT_underway/Tests_and_plots/longhurst_v4_2010/Longhurst_world_v4_2010.shp'
     shape_feature = ShapelyFeature(Reader(fname).geometries(),
-                                    ccrs.PlateCarree(),facecolor='none',edgecolor='bisque',linestyle='--')
+                                    ccrs.PlateCarree(),facecolor='none',edgecolor='gray',linestyle='--')
     ax.add_feature(shape_feature)
     
     colors = cm.tab10(np.linspace(0,1,10))    
        
-    ax.scatter(data_nc_19['uway_lon'], data_nc_19['uway_lat'], s=0.5, color='white', label='AMT 19: 2009')
-    ax.scatter(data_nc_22['uway_lon'], data_nc_22['uway_lat'], s=0.5, color=colors[1], label='AMT 22: 2012')
-    ax.scatter(data_nc_23['uway_lon'], data_nc_23['uway_lat'], s=0.5, color=colors[2], label='AMT 23: 2013')
-    ax.scatter(data_nc_24['uway_lon'], data_nc_24['uway_lat'], s=0.5, color=colors[3], label='AMT 24: 2014')
-    ax.scatter(data_nc_25['uway_lon'], data_nc_25['uway_lat'], s=0.5, color=colors[4], label='AMT 25: 2015')
-    ax.scatter(data_nc_26['uway_lon'], data_nc_26['uway_lat'], s=0.5, color=colors[5], label='AMT 26: 2016')
-    ax.scatter(data_nc_27['uway_lon'], data_nc_27['uway_lat'], s=0.5, color=colors[6], label='AMT 27: 2017')
-    ax.scatter(data_nc_28['uway_lon'], data_nc_28['uway_lat'], s=0.5, color=colors[7], label='AMT 28: 2018')
-    ax.scatter(data_nc_29['uway_lon'], data_nc_29['uway_lat'], s=0.5, color=colors[8], label='AMT 29: 2019')
+    ax.scatter(data_nc_19['uway_lon'], data_nc_19['uway_lat'], s=0.4, color='black',   alpha=0.66, label='AMT 19: 2009')
+    ax.scatter(data_nc_22['uway_lon'], data_nc_22['uway_lat'], s=0.4, color=colors[0], alpha=0.66, label='AMT 22: 2012')
+    ax.scatter(data_nc_23['uway_lon'], data_nc_23['uway_lat'], s=0.4, color=colors[1], alpha=0.66, label='AMT 23: 2013')
+    ax.scatter(data_nc_24['uway_lon'], data_nc_24['uway_lat'], s=0.4, color=colors[2], alpha=0.66, label='AMT 24: 2014')
+    ax.scatter(data_nc_25['uway_lon'], data_nc_25['uway_lat'], s=0.4, color=colors[3], alpha=0.66, label='AMT 25: 2015')
+    ax.scatter(data_nc_26['uway_lon'], data_nc_26['uway_lat'], s=0.4, color=colors[6], alpha=0.66, label='AMT 26: 2016')
+    ax.scatter(data_nc_27['uway_lon'], data_nc_27['uway_lat'], s=0.4, color=colors[8], alpha=0.66, label='AMT 27: 2017')
+    ax.scatter(data_nc_28['uway_lon'], data_nc_28['uway_lat'], s=0.4, color=colors[9], alpha=0.66, label='AMT 28: 2018')
+    ax.scatter(data_nc_29['uway_lon'], data_nc_29['uway_lat'], s=0.4, color='white',   alpha=0.66, label='AMT 29: 2019')
     plt.legend(markerscale=10 ,loc=4,fontsize=14)                
     
-    plt.text(.33, .92,   'NADR', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
-    plt.text(.12, .80,   'NASW', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
-    plt.text(.53, .78,   'NASE', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
-    plt.text(.16, .65,   'NATR', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
-    plt.text(.26, .53,   'WTRA', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
-    plt.text(.50, .28,   'SATL', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
-    plt.text(.50, .13,   'SSTC', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)
-    plt.text(.42, .06,   'SANT', ha='left', va='top', color='white', transform=ax.transAxes,fontsize=16)    
+    plt.text(.33, .92,   'NADR', ha='left', va='top', color='black', transform=ax.transAxes,fontsize=14)
+    plt.text(.12, .80,   'NASW', ha='left', va='top', color='black', transform=ax.transAxes,fontsize=14)
+    plt.text(.53, .78,   'NASE', ha='left', va='top', color='black', transform=ax.transAxes,fontsize=14)
+    plt.text(.16, .65,   'NATR', ha='left', va='top', color='black', transform=ax.transAxes,fontsize=14)
+    plt.text(.26, .53,   'WTRA', ha='left', va='top', color='black', transform=ax.transAxes,fontsize=14)
+    plt.text(.50, .28,   'SATL', ha='left', va='top', color='black', transform=ax.transAxes,fontsize=14)
+    plt.text(.50, .13,   'SSTC', ha='left', va='top', color='black', transform=ax.transAxes,fontsize=14)
+    plt.text(.42, .06,   'SANT', ha='left', va='top', color='black', transform=ax.transAxes,fontsize=14)    
   
     filename  =  fig_dir + '/'  + '_AMT_coverage.png'
     plt.savefig(filename,dpi=600)    
@@ -1885,33 +1892,34 @@ if __name__ == '__main__':
     _9cruise_LH_mask(field = 'LH_Province') # stacks LH mask for 9 cruise dataset
     df_hplc = _pig_9cruises() # stacks pigments into dataframe
 
-
     # Generate figures as used in MS submission
     # Methods figs - Sect. 2
     plot_coverage() # Fig 1 A
-    plot_AMT_timeline() # Fig 1 B
+    breakpoint()
+    
+  #  plot_AMT_timeline() # Fig 1 B
   #   # see step5/AMT 28 for Fig 2 plots                    
-    plot_total_ABfit() # Fig 3
+  #  plot_total_ABfit() # Fig 3
  #   
     # IOP results figs - Sect 3.1
-    plot_median_ap_province() # Fig 4
-    plot_676_443() # Fig 5
-    plot_uncertainties() # Fig 6
+ #   plot_median_ap_province() # Fig 4
+  #  plot_676_443() # Fig 5
+   # plot_uncertainties() # Fig 6
 #
     # Tchla results - Sect 3.2
-    plot_chl_time_series() # Fig 7
-    plot_chl_hist()  # Fig 8
- 
+   # plot_chl_time_series() # Fig 7
+   # plot_chl_hist()  # Fig 8
+ #
     # Pigment results - Sect 3.3
-    plot_pigs_byprov() # Fig 9 
-    plot_pigs_byprov_ratio()  # Fig 10
+ #   plot_pigs_byprov() # Fig 9 
+  #  plot_pigs_byprov_ratio()  # Fig 10
 
     # Pigment correlationss - Sect 3.4
-    plot_pig_cov(df_hplc)
-    plot_pig_cov_v2(df_hplc)
+   # plot_pig_cov(df_hplc)
+    #plot_pig_cov_v2(df_hplc)
     
     # ap limting case - Sect 3.5
-    plot_ap_limitingcases()
+   # plot_ap_limitingcases()
     
     # code example to generate LH mask
    # mask19 = longhurst_mask(data_nc_19['uway_lat'], data_nc_19['uway_lon'], 'AMT19')
